@@ -37,7 +37,7 @@ export async function onRequest(context: DefaultRequest) {
         const shortType = getTypeShort(link);
 
         const result: ShortURLDatabaseResponse | null = await context.env.DB
-            .prepare(`SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`)
+            .prepare(`SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (COL_LENGTH('links', 'expire_at') IS NOT NULL OR expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`)
             .bind(shortType.short)
             .first();
         
