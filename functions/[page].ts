@@ -36,8 +36,10 @@ export async function onRequest(context: DefaultRequest) {
     try {
         const shortType = getTypeShort(link);
 
+        let SQL = `SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`;
+        if (shortType.type === ShortType.SanZi) SQL = `SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1`;
         const result: ShortURLDatabaseResponse | null = await context.env.DB
-            .prepare(`SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (COL_LENGTH('links', 'expire_at') IS NOT NULL OR expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`)
+            .prepare(SQL)
             .bind(shortType.short)
             .first();
         
