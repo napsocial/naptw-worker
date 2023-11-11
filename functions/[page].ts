@@ -1,18 +1,13 @@
-import type { D1Database, EventContext, Fetcher } from "@cloudflare/workers-types";
-
-interface ShortURLDatabaseResponse {
-    original: string
-}
-
-export interface Env {
-    DB: D1Database,
-    ASSETS: Fetcher
-}
+import { APIErrorType, DefaultRequest, ErrorMessages, ShortURLDatabaseResponse } from "./utils";
 
 enum ShortType {
     Normal,
     Secure,
     SanZi
+}
+interface ShortString {
+    type: ShortType,
+    short: string
 }
 
 function getTableName(type: ShortType) {
@@ -26,34 +21,39 @@ function getTableName(type: ShortType) {
     }
 }
 
-export async function onRequest(context: EventContext<Env, string, Record<string, unknown>>) {
+function getTypeShort(link: string): ShortString {
+    if (link.startsWith("s:")) return { type: ShortType.Secure, short: link.split(":")[1] };
+    if (link.startsWith("o:")) return { type: ShortType.SanZi, short: link.split(":")[1] };
+
+    return { type: ShortType.Normal, short: link };
+}
+
+export async function onRequest(context: DefaultRequest) {
     const ln = context.params.page;
     const link = (ln instanceof Array ? ln[0] : ln);
     if (link.match("@react-refresh")) return context.env.ASSETS.fetch(context.request);
 
-    let type = ShortType.Normal;
-    if (link.startsWith("s:")) type = ShortType.Secure;
-    if (link.startsWith("o:")) type = ShortType.SanZi;
-
     try {
+        const shortType = getTypeShort(link);
+
         const result: ShortURLDatabaseResponse | null = await context.env.DB
-            .prepare(`SELECT original FROM ${getTableName(type)} WHERE short = ? AND enabled = 1 AND (expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`)
-            .bind(link)
+            .prepare(`SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`)
+            .bind(shortType.short)
             .first();
         
         const url = new URL(context.request.url);
         const defaultPath = "".concat(url.protocol, "//", url.hostname);
         
         if (result === null) return Response.redirect(defaultPath, 302);
-        if (type === ShortType.Secure) return Response.redirect(defaultPath.concat("/encryption/", link));
+        if (shortType.type === ShortType.Secure) return Response.redirect(defaultPath.concat("/encryption/", shortType.short));
 
-        if (type === ShortType.Normal) await context.env.DB
+        if (shortType.type === ShortType.Normal) await context.env.DB
             .prepare("INSERT INTO analysis (`short_link`, `user_agent`, `access_ip`, `country_code`) VALUES (?, ?, ?, ?)")
             .bind(link, context.request.headers.get("user-agent"), context.request.headers.get('CF-Connecting-IP') || "0.0.0.0", context.request.cf?.country)
             .run();
         return Response.redirect(result.original, 302);
     } catch (e) {
         console.log(e);
-        return new Response("Hi! NAP Shorter get an unexpected server error while getting the original URL of this short URL. If you want to submit this error, please email to service@nap.tw.", { status: 500 });
+        return new Response(ErrorMessages[APIErrorType.ServerError], { status: 500 });
     }
 }

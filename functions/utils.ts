@@ -1,3 +1,5 @@
+import { D1Database, EventContext, Fetcher } from "@cloudflare/workers-types";
+
 export const enum ServerStatus {
     CreateSuccess = 1 << 1,
     Error         = -1,
@@ -11,6 +13,27 @@ export const enum ServerShortError {
     TurnsileNotPass    = 1 << 4,
     URLNotFound        = 1 << 5,
     RequirementsNotMet = 1 << 6,
+}
+
+export type DefaultRequest = EventContext<Env, string, Record<string, unknown>>;
+export interface Env {
+    DB: D1Database,
+    TURNSTILE_KEY: string,
+    ASSETS: Fetcher
+}
+
+export interface ShortURLDatabaseResponse {
+    original: string
+}
+
+export const enum APIErrorType {
+    NoDirectAccess,
+    ServerError
+}
+
+export const ErrorMessages = {
+    [APIErrorType.NoDirectAccess]: "You cannot direct access this API. Try our API to create short link!",
+    [APIErrorType.ServerError]: "Hi! NAP Shorter get an unexpected server error while getting the original URL of this short URL. If you want to submit this error, please email to service@nap.tw."
 }
 
 export const validateURL = (url: string): boolean => {

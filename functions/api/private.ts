@@ -1,9 +1,11 @@
-import { APIErrorType, DefaultRequest, ErrorMessages, ServerShortError, ServerStatus, generateRandomString, validateURL } from "../utils";
+import { APIErrorType, DefaultRequest, ErrorMessages, ServerShortError, ServerStatus, generateRandomString } from "../utils";
 
 interface RequestData {
-    ul: string,         // Original URL
+    ul: string,         // Encrypted Original URL
     vf: string,         // Turnstile Token
-    ep?: number         // Expire Timestamp (optional)
+    ep: number,         // Expire Timestamp
+    ho: string,         // Original Hash
+    hk: string          // Key Hash
 }
 
 export async function onRequestPost(context: DefaultRequest) {
@@ -14,7 +16,7 @@ export async function onRequestPost(context: DefaultRequest) {
     const request: RequestData = await context.request.json();
     const ip = context.request.headers.get('CF-Connecting-IP') || "0.0.0.0";
 
-    if (!request.ul || !request.vf)
+    if (!request.ul || !request.vf || !request.ep || !request.hk || !request.ho)
         return Response.json([
             ServerStatus.Error,
             ServerShortError.RequirementsNotMet
@@ -34,18 +36,12 @@ export async function onRequestPost(context: DefaultRequest) {
             ServerStatus.Error,
             ServerShortError.TurnsileNotPass
         ]);
-    
-    if (!validateURL(request.ul))
-        return Response.json([
-            ServerStatus.Error,
-            ServerShortError.URLNotValid
-        ]);
-    
+
     const short = generateRandomString(8);
-    const expire = (request.ep && new Date(request.ep).toISOString()) ?? null;
+    const expire = new Date(request.ep).toISOString();
     await context.env.DB
-        .prepare("INSERT INTO links (`short`, `original`, `create_ip`, `expire_at`, `create_user`) VALUES (?, ?, ?, ?, ?)")
-        .bind(short, request.ul, ip, expire, null)
+        .prepare("INSERT INTO private_short_link (`short`, `original`, `create_ip`, `expire_at`, `create_user`, `key_hash`, `original_hash`) VALUES (?, ?, ?, ?, ?, ?, ?)")
+        .bind(short, request.ul, ip, expire, null, request.hk, request.ho)
         .run();
 
     return Response.json([

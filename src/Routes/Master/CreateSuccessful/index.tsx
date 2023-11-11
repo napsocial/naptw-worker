@@ -16,7 +16,7 @@ export default function CreateSuccessful(config: ElementArgument) {
     const [showToast, setShowToast] = useState<boolean>(false);
     const QRCodeRef = useRef<HTMLDivElement>();
 
-    const short_url = "nap.tw/".concat(config.url);
+    const short_url = [location.hostname, config.url].join("/");
     const full_short_url = "https://".concat(short_url);
 
     function handleClick() {
