@@ -12,7 +12,7 @@ export default function useTitle(title: string) {
         if (document.title !== title) document.title = title;
 
         return () => {
-        document.title = originalTitle.current;
+            document.title = originalTitle.current;
         };
     }, []);
 }

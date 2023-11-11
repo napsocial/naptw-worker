@@ -1,7 +1,7 @@
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "shorturl"
-database_id = "e4d0f046-1b97-45b7-a549-00cca90f2b3b"
+database_id = "ae594a40-0220-4123-bf95-77079b0a6943"
 
 [vars]
 # TURNSTILE_KEY = "0x4AAAAAAAIU63N8vC_UCR4_TI3ga3jlWms"

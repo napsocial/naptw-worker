@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import Input from "@/Components/Input";
 import { PrivateDecryption } from "@/types";
-import { Alert } from "flowbite-react";
+import { Alert, Spinner } from "flowbite-react";
 import { FaKey } from "react-icons/fa";
 import { HashAlgorithm, convertBinaryToString, convertStringToBinary, createBinaryHashHex, createHashHex, decryption } from "@/crypto";
 import useTitle from "@/Hooks/useTitle";
+import useFetch from "@/Hooks/useFetch";
+import { useParams } from "react-router-dom";
 
 enum DecryptionStatus {
     Default,
@@ -14,26 +16,23 @@ enum DecryptionStatus {
 export default function PrivateDecryption() {
     useTitle("Private Decryption");
     
-    const data = {
-        pkh: "test",
-        pd: "rest",
-        pkd: "test"
-    };
+    const { short } = useParams();
+    const data = useFetch<Array<string>>("/api/private/".concat(short));
     const [status, setStatus] = useState<DecryptionStatus>(DecryptionStatus.Default);
     const [error, setError] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const [isValid, setIsValid] = useState<boolean>(false);
 
     useEffect(() => {
-        createHashHex(password, HashAlgorithm.SHA1).then(e => setIsValid(e === data.pkh));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [password]);
+        if (!data) return;
+        createHashHex(password, HashAlgorithm.SHA1).then(e => setIsValid(e === data[5]));
+    }, [password, data]);
 
     async function handleSubmit() {
-        const org_data = data.pd;
+        const org_data = data[3];
         const dec = await decryption(org_data, convertStringToBinary(password));
 
-        if (await createBinaryHashHex(dec, HashAlgorithm.SHA1) !== data.pkd) {
+        if (await createBinaryHashHex(dec, HashAlgorithm.SHA1) !== data[4]) {
             setStatus(DecryptionStatus.Error);
             setError("We cannot decrypt the data, the hash of decrypted is not match the original.");
             return;
@@ -58,8 +57,9 @@ export default function PrivateDecryption() {
                 <p className="text-md sm:text-lg text-gray-800">It seems you received an encrypted short URL. You have to decrypt the data to access the original URL!</p>
             </div>
 
+            { !data && <Spinner size="xl" className="m-auto w-full" /> }
             {
-                (() => {
+                data && (() => {
                     switch (status) {
                         case DecryptionStatus.Default:
                             return <Input
