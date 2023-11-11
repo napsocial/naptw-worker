@@ -1,0 +1,4 @@
+header .brand > span:last-child:hover {
+    transform: translate(5px, -5px);
+    box-shadow: -5px 5px 0 0px #8c10ff88;
+}
