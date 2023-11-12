@@ -73,7 +73,7 @@ export default function CreateSuccessful(config: ElementArgument) {
                                 </CardComponent>
                             </a>
                         </div>
-                        <Button className="w-full" onClick={() => config.onCreateNew}>建立新的短連結</Button>
+                        <Button className="w-full" onClick={() => config.onCreateNew()}>建立新的短連結</Button>
                     </div>
                 </div>
                 <div ref={QRCodeRef} className="flex flex-col border-l-0 border-t-2 justify-center border-gray-400 lg:border-l-2 lg:border-t-0 lg:pl-5">
