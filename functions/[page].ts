@@ -31,7 +31,7 @@ function getTypeShort(link: string): ShortString {
 export async function onRequest(context: DefaultRequest) {
     const ln = context.params.page;
     const link = (ln instanceof Array ? ln[0] : ln);
-    if (link.match("@react-refresh")) return context.env.ASSETS.fetch(context.request);
+    if (["@react-refresh", "favicon.ico", "robots.txt"].some((val) => link.match(val))) return context.env.ASSETS.fetch(context.request);
 
     try {
         const shortType = getTypeShort(link);
