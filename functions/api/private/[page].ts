@@ -1,4 +1,4 @@
-import { APIErrorType, DefaultRequest, ErrorMessages, ServerStatus } from "../../utils";
+import { APIErrorType, BotManagement, DefaultRequest, ErrorMessages, ServerStatus } from "../../utils";
 
 interface PrivateDatabaseResponse {
     original: string,
@@ -14,7 +14,7 @@ export async function onRequestGet(context: DefaultRequest) {
     const link = (ln instanceof Array ? ln[0] : ln);
 
     if (!context.request.headers.get('Referer')?.match(new URL(context.request.url).hostname) ||
-        context.request.cf?.botManagement.score < 25)
+        (context.request.cf?.botManagement as BotManagement).score < 25)
         return new Response(ErrorMessages[APIErrorType.NoDirectAccess]);
     
     try {

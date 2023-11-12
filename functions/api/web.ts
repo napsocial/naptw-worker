@@ -1,4 +1,4 @@
-import { APIErrorType, DefaultRequest, ErrorMessages, ServerShortError, ServerStatus, generateRandomString, validateURL } from "../utils";
+import { APIErrorType, BotManagement, DefaultRequest, ErrorMessages, ServerShortError, ServerStatus, generateRandomString, validateURL } from "../utils";
 
 interface RequestData {
     ul: string,         // Original URL
@@ -8,7 +8,7 @@ interface RequestData {
 
 export async function onRequestPost(context: DefaultRequest) {
     if (!context.request.headers.get('Referer')?.match(new URL(context.request.url).hostname) ||
-        context.request.cf?.botManagement.score < 25)
+        (context.request.cf?.botManagement as BotManagement).score < 25)
         return new Response(ErrorMessages[APIErrorType.NoDirectAccess]);
 
     const request: RequestData = await context.request.json();
