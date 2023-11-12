@@ -1,7 +1,6 @@
 import { lazy, useState } from "react";
 import Creating from "./Creating";
-import { ServerShortError } from "@/utils";
-import ReactGA from 'react-ga4';
+import { ServerShortError, analysisLog } from "@/utils";
 import URLCreate from "./URLCreate";
 import { Status } from "./utils";
 import { Turnstile } from "@marsidev/react-turnstile";
@@ -19,7 +18,7 @@ export default function Master() {
     const [url, setURL] = useState<string>('');
 
     function handleCreateNew() {
-        ReactGA.event('regenerate_url');
+        analysisLog("Create Link", "Regenerate", "true");
         setStatus(Status.Default);
         setURL('');
         setErrorType(null);

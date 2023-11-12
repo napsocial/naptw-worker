@@ -4,8 +4,8 @@ import Card from "../Card";
 import { Button, Toast } from "flowbite-react";
 import { FaClipboard } from "react-icons/fa";
 import { useRef, useState } from "react";
-import ReactGA from 'react-ga4';
 import { CallbackFunction } from "@/types";
+import { analysisLog } from "@/utils";
 
 interface ElementArgument {
     url: string,
@@ -42,7 +42,7 @@ export default function CreateSuccessful(config: ElementArgument) {
 
             a.click();
 
-            ReactGA.event('download_qrcode');
+            analysisLog("Download", "QR Code", "ture");
         }
     }
 
@@ -64,7 +64,7 @@ export default function CreateSuccessful(config: ElementArgument) {
                             <a className="w-full" href={full_short_url} onClick={(event) => {
                                 event.preventDefault();
                                 navigator.clipboard.writeText(full_short_url);
-                                ReactGA.event('copy_link');
+                                analysisLog("Create Link", "Copy", "ture");
                                 setShowToast(true);
                                 setTimeout(() => setShowToast(false), 5000);
                             }} >
@@ -73,7 +73,7 @@ export default function CreateSuccessful(config: ElementArgument) {
                                 </CardComponent>
                             </a>
                         </div>
-                        <Button className="w-full" onClick={() => config.onCreateNew}>建立新的短連結</Button>
+                        <Button className="w-full" onClick={() => config.onCreateNew()}>建立新的短連結</Button>
                     </div>
                 </div>
                 <div ref={QRCodeRef} className="flex flex-col border-l-0 border-t-2 justify-center border-gray-400 lg:border-l-2 lg:border-t-0 lg:pl-5">

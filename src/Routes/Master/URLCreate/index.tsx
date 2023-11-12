@@ -5,9 +5,8 @@ import { FaLink, FaCalendar } from "react-icons/fa";
 import { useState } from "react";
 import type { AdvanceOption, AdvanceOptionNames } from "@/types/master";
 import { ServerStatus, Status } from "../utils";
-import { ServerShortError } from "@/utils";
+import { ServerShortError, analysisLog } from "@/utils";
 import axios from "axios";
-import ReactGA from 'react-ga4';
 import { ServerResponse } from "http";
 
 interface CreateArgument {
@@ -40,8 +39,8 @@ export default function URLCreate(config: CreateArgument) {
             ...optitionConfig
         });
 
-        ReactGA.event('create_link');
-        if (optitionConfig && optitionConfig.isEP) ReactGA.event('create_expire');
+        analysisLog("Create Link", "Create", "Short");
+        if (optitionConfig && optitionConfig.isEP) analysisLog("Create Link", "Create", "Expire");
 
         switch (request.data[0]) {
             case ServerStatus.Error:

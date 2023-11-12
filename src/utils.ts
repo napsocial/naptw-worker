@@ -1,3 +1,5 @@
+import ReactGA from 'react-ga4';
+
 // Page should be modify in App\Utils
 export const enum ServerPage {
     Home              = 0,
@@ -43,4 +45,12 @@ export const validateURL = (url: string): boolean => {
         'i'
     );
     return pattern.test(url);
+}
+
+export const analysisLog = (category: string, action: string, label: string) => {
+    ReactGA.event({
+        category,
+        action,
+        label
+    });
 }
