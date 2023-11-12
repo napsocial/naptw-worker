@@ -2,8 +2,13 @@ name = "cronjob"
 main = "src/index.ts"
 compatibility_date = "2023-05-15"
 
+[[d1_databases]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "shorturl"
+database_id = "ae594a40-0220-4123-bf95-77079b0a6943"
+
 # Cron Triggers
 # Docs: https://developers.cloudflare.com/workers/platform/triggers/cron-triggers/
 # Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers
 [triggers]
-crons = ["* * * * *"] # * * * * * = run every minute
+crons = ["0 * * * *"] # * * * * * = run every minute
