@@ -4,7 +4,9 @@ export interface Env {
 
 export default {
 	async scheduled(event: ScheduledEvent, env: Env): Promise<void> {
-		await env.DB.exec("DELETE FROM links WHERE expire_at <= CURRENT_TIMESTAMP");
-		await env.DB.exec("DELETE FROM private_short_link WHERE expire_at <= CURRENT_TIMESTAMP");
+		await Promise.all([
+			env.DB.exec("DELETE FROM links WHERE expire_at <= CURRENT_TIMESTAMP"),
+			env.DB.exec("DELETE FROM private_short_link WHERE expire_at <= CURRENT_TIMESTAMP")
+		])
 	},
 };
