@@ -6,6 +6,8 @@ import { Status } from "./utils";
 import { Turnstile } from "@marsidev/react-turnstile";
 import Tabs from "./Tabs";
 import CreatePrivate from "./CreatePrivate";
+import Introduction from "./Introduction";
+import { FaAngleDown } from "react-icons/fa";
 
 const ErrorPage = lazy(() => import('./Error'));
 const CreateSuccessful = lazy(() => import('./CreateSuccessful'));
@@ -37,48 +39,57 @@ export default function Master() {
     }
 
     return <>
-        {[Status.Default, Status.CreatePrivate, Status.URLLookUp].includes(status) && <>
-            <Turnstile
-                className="absolute bottom-3"
-                siteKey={process.env.NODE_ENV.match("development") ? "1x00000000000000000000BB" : "0x4AAAAAAAIU6xRp_Pkz9eMW"}
-                onSuccess={setToken} />
-            <div className="w-full h-fit flex justify-center top-2 mb-5">
-                <Tabs onTabChange={handleType} status={type} />
+        <div className="min-h-[calc(100vh-7rem)] w-full flex flex-col">
+            {[Status.Default, Status.CreatePrivate, Status.URLLookUp].includes(status) && <>
+                <Turnstile
+                    className="absolute bottom-3"
+                    siteKey={process.env.NODE_ENV.match("development") ? "1x00000000000000000000BB" : "0x4AAAAAAAIU6xRp_Pkz9eMW"}
+                    onSuccess={setToken} />
+                <div className="w-full h-fit flex justify-center top-2 mb-5 px-5">
+                    <Tabs onTabChange={handleType} status={type} />
+                </div>
+            </>}
+
+            <div className="flex-auto flex sm:items-center justify-center m-auto w-11/12 min-h-full md:w-4/5 max-w-7xl">
+                <div className="w-full">
+                    {
+                        ((): JSX.Element => {
+                            switch (status) {
+                                case Status.Default:
+                                    return <URLCreate
+                                        onStatusChange={setStatus}
+                                        onErrorChange={setErrorType}
+                                        onURLChange={setURL}
+                                        turnstileToken={token}
+                                        status={status}
+                                        urlForShort={url} />;
+                                case Status.CreatePrivate:
+                                    return <CreatePrivate
+                                        onStatusChange={setStatus}
+                                        onErrorChange={setErrorType}
+                                        onURLChange={setURL}
+                                        turnstileToken={token}
+                                        status={status} />;
+                                case Status.Creating:
+                                    return <Creating />;
+                                case Status.CreateSuccessful:
+                                    return <CreateSuccessful url={url} onCreateNew={handleCreateNew} />;
+                                case Status.Error:
+                                    return <ErrorPage errorMessage={errorType} />;
+                            }
+                        })()
+                    }
+                </div>
             </div>
-        </>}
-
-        <div className="flex-auto flex sm:items-center justify-center m-auto w-full md:w-11/12 min-h-full">
-
-            <div className="w-full">
-                {
-                    ((): JSX.Element => {
-                        switch (status) {
-                            case Status.Default:
-                                return <URLCreate
-                                    onStatusChange={setStatus}
-                                    onErrorChange={setErrorType}
-                                    onURLChange={setURL}
-                                    turnstileToken={token}
-                                    status={status}
-                                    urlForShort={url} />;
-                            case Status.CreatePrivate:
-                                return <CreatePrivate
-                                    onStatusChange={setStatus}
-                                    onErrorChange={setErrorType}
-                                    onURLChange={setURL}
-                                    turnstileToken={token}
-                                    status={status} />;
-                            case Status.Creating:
-                                return <Creating />;
-                            case Status.CreateSuccessful:
-                                return <CreateSuccessful url={url} onCreateNew={handleCreateNew} />;
-                            case Status.Error:
-                                return <ErrorPage errorMessage={errorType} />;
-                        }
-                    })()
-                }
+            <div className="text-center from-white to-theme bg-gradient-to-b w-full">
+                <div className="flex flex-col w-fit m-auto px-2">
+                    <span className="mb-5 text-2xl sm:text-3xl sm:py-2 lg:text-5xl bg-indigo-800 shadow-2xl shadow-indigo-800 text-white px-2 w-fit mx-auto rounded-lg">為什麼要使用<span className="font-bold underline underline-offset-4 sm:underline-offset-8 decoration-blue-400 sm:decoration-[5px]">小睡一下短網址服務</span>？</span>
+                    <span className="text-lg bg-blue-700 text-white mb-5 px-2 w-fit mx-auto rounded-lg">往下看更多</span>
+                    <FaAngleDown className="m-auto text-white animate-bounce mb-1" size={56} />
+                </div>
             </div>
-
         </div>
+
+        <Introduction />
     </>;
 }

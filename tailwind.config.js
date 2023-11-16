@@ -14,6 +14,7 @@ export default {
         sans: ['Poppins', 'Noto Sans TC', ...defaultTheme.fontFamily.sans],
       },
       colors: {
+        'theme': "#3182A8",
         'ft-bg-from': "#3182A8",
         'ft-bg-via': "#0039A2",
         'ft-bg-to': "#4600B0"

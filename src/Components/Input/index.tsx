@@ -21,7 +21,7 @@ interface InputElement {
     defaultValue?: string
 }
 
-export default (config: InputElement) => {
+export default function Input(config: InputElement) {
     const [ID] = useState(generateRandomString(8));
 
     return <div className="w-full">
