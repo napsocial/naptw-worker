@@ -41,7 +41,7 @@ export async function onRequestPost(context: DefaultRequest) {
             ServerShortError.URLNotValid
         ]);
     
-    const short = generateRandomString(8);
+    const short = generateRandomString(5);
     const expire = (request.ep && new Date(request.ep).toISOString()) ?? null;
     await context.env.DB
         .prepare("INSERT INTO links (`short`, `original`, `create_ip`, `expire_at`, `create_user`) VALUES (?, ?, ?, ?, ?)")
