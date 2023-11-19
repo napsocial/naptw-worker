@@ -49,7 +49,8 @@ export async function onRequest(context: DefaultRequest) {
         if (result === null) return Response.redirect(defaultPath, 302);
         if (shortType.type === ShortType.Secure) return Response.redirect(defaultPath.concat("/encryption/", shortType.short));
 
-        if (shortType.type === ShortType.Normal) await context.env.DB
+        if (shortType.type === ShortType.Normal && url.searchParams.has("q")) return Response.redirect(defaultPath.concat("/analysis/", shortType.short));
+        if (shortType.type === ShortType.Normal && !url.searchParams.has("dnt")) await context.env.DB
             .prepare("INSERT INTO analysis (`short_link`, `user_agent`, `access_ip`, `country_code`) VALUES (?, ?, ?, ?)")
             .bind(link, context.request.headers.get("user-agent"), context.request.headers.get('CF-Connecting-IP') || "0.0.0.0", context.request.cf?.country)
             .run();
