@@ -6,18 +6,30 @@ import { FaKey } from "react-icons/fa";
 import { HashAlgorithm, convertBinaryToString, convertStringToBinary, createBinaryHashHex, createHashHex, decryption } from "@/crypto";
 import useTitle from "@/Hooks/useTitle";
 import useFetch from "@/Hooks/useFetch";
-import { useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
+import { ServerStatus } from "../Master/utils";
 
 enum DecryptionStatus {
     Default,
     Error
 }
 
+function AlertBox({ children }: { children: string }) {
+    return <Alert color="red" rounded>
+        <span>
+            <p>
+                <span className="font-bold block">Error</span>
+                {children}
+            </p>
+        </span>
+    </Alert>
+}
+
 export default function PrivateDecryption() {
     useTitle("Private Decryption");
     
     const { short } = useParams();
-    const data = useFetch<Array<string>>("/api/private/".concat(short));
+    const data = useFetch<Array<string | number>>("/api/private/".concat(short));
     const [status, setStatus] = useState<DecryptionStatus>(DecryptionStatus.Default);
     const [error, setError] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -29,7 +41,7 @@ export default function PrivateDecryption() {
     }, [password, data]);
 
     async function handleSubmit() {
-        const org_data = data[3];
+        const org_data = data[3] as string;
         const dec = await decryption(org_data, convertStringToBinary(password));
 
         if (await createBinaryHashHex(dec, HashAlgorithm.SHA1) !== data[4]) {
@@ -57,9 +69,10 @@ export default function PrivateDecryption() {
                 <p className="text-md sm:text-lg text-gray-800">It seems you received an encrypted short URL. You have to decrypt the data to access the original URL!</p>
             </div>
 
-            { !data && <Spinner size="xl" className="m-auto w-full" /> }
+            {!data && <Spinner size="xl" className="m-auto w-full" />}
+            {data && data[0] === ServerStatus.Error && <AlertBox>We cannot get the encrypted short link from our database. Is your encryption short link it expired?</AlertBox>}
             {
-                data && (() => {
+                data && data[0] !== ServerStatus.Error && (() => {
                     switch (status) {
                         case DecryptionStatus.Default:
                             return <Input
@@ -73,14 +86,7 @@ export default function PrivateDecryption() {
                                 additionalText={(password.length > 0 && !isValid) && "Your password isn't correct!"}
                                 sendMessage="Decrypt!" />;
                         case DecryptionStatus.Error:
-                            return <Alert color="red" rounded>
-                                <span>
-                                    <p>
-                                        <span className="font-bold block">Error</span>
-                                        {error}
-                                    </p>
-                                </span>
-                            </Alert>;
+                            return <AlertBox>{error}</AlertBox>;
                     }
                 })()
             }
