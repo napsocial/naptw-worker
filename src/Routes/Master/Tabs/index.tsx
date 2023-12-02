@@ -2,7 +2,7 @@ import { CallbackFunction } from "@/types";
 import { generateRandomString } from "@/utils";
 import { Tabs } from "flowbite-react";
 import { IconType } from "react-icons";
-import { FaLink, FaLock, FaSearch } from "react-icons/fa";
+import { FaLink, FaLock /*, FaSearch*/ } from "react-icons/fa";
 
 interface ElementArgument {
     onTabChange: CallbackFunction<number>,
@@ -24,11 +24,13 @@ const TABS: TabsArgument[] = [
         title: "建立隱私連結",
         icon: FaLock
     },
-    {
-        title: "短網址找查",
-        icon: FaSearch,
-        disable: true
-    }
+    // TODO: finish this section
+    //
+    // {
+    //     title: "短網址找查",
+    //     icon: FaSearch,
+    //     disable: true
+    // }
 ];
 
 export default function TabsElement(config: ElementArgument) {
