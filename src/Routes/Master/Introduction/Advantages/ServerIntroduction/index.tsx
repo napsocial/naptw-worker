@@ -4,7 +4,7 @@ import Container from "../Container";
 
 const pg = async () => {
     const pingStart = performance.now();
-    await fetch("/api/ping");
+    await fetch("/cdn-cgi/trace");
     return performance.now() - pingStart;
 }
 
@@ -16,11 +16,11 @@ export default function ServerIntroduction() {
     }
 
     useEffect(() => {
-        (async () => setPing(await pg()))();
+        setTimeout(async () => setPing(await pg()), 300);
     }, []);
 
     return <Container image={ServerImage} title="邊緣直連！">
         <p>始於雲端，用於雲端。我們使用<a className="text-blue-500" href="https://workers.cloudflare.com/">Cloudflare Workers</a>作為我們的後端，一切都於與你最近的CDN站點執行。速度甚至可達毫秒級。</p>
-        <p className="mt-3">您的連線速度: <span className="font-mono">{ping.toFixed(2)}ms</span> <span onClick={sp} className="text-blue-500 select-none cursor-pointer">再次測試</span></p>
+        <p className="mt-3">您的連線速度: <span className="font-mono">{ping.toFixed(1)}ms</span> <span onClick={sp} className="text-blue-500 select-none cursor-pointer">再次測試</span></p>
     </Container>
 }

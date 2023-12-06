@@ -11,6 +11,8 @@ export default function RouterHandler() {
         <Routes>
             <Route path="/" element={<Master />} />
             <Route path="/encryption/:short" element={<PrivateDecryption />} />
+            <Route path="/c/u" element={<Master isBookmarkCreate />} />
+            <Route path="/analysis/:short" element={<p>test</p>} />
             <Route path="*" element={<NotFound />} />
         </Routes>
     </BrowserRouter>;

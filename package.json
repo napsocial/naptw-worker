@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx wrangler pages dev --port 80 --proxy 3000 -- yarn dev:web",
+    "dev": "npx wrangler@latest pages dev --port 80 --proxy 3000 -- yarn dev:web",
     "dev:web": "vite",
     "build:pack": "tsc && vite build && cp -r functions dist/",
-    "deploy": "yarn build:pack && npx wrangler pages deploy dist",
+    "deploy": "yarn build:pack && npx wrangler@latest pages deploy dist",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

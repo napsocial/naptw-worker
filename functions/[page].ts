@@ -44,7 +44,7 @@ export async function onRequest(context: DefaultRequest) {
             .first();
         
         const url = new URL(context.request.url);
-        const defaultPath = "".concat(url.protocol, "//", url.hostname);
+        const defaultPath = "".concat(url.protocol, "//", url.host);
         
         if (result === null) return Response.redirect(defaultPath, 302);
         if (shortType.type === ShortType.Secure) return Response.redirect(defaultPath.concat("/encryption/", shortType.short));

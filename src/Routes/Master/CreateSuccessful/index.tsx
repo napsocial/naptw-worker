@@ -6,6 +6,7 @@ import { FaClipboard } from "react-icons/fa";
 import { useRef, useState } from "react";
 import { CallbackFunction } from "@/types";
 import { analysisLog } from "@/utils";
+import { Link } from "react-router-dom";
 
 interface ElementArgument {
     url: string,
@@ -16,8 +17,8 @@ export default function CreateSuccessful(config: ElementArgument) {
     const [showToast, setShowToast] = useState<boolean>(false);
     const QRCodeRef = useRef<HTMLDivElement>();
 
-    const short_url = [location.hostname, config.url].join("/");
-    const full_short_url = "https://".concat(short_url);
+    const short_url = [location.host, config.url].join("/");
+    const full_short_url = location.protocol.concat("//", short_url);
 
     function handleClick() {
         const svgElement = QRCodeRef.current.children[0] as SVGSVGElement;
@@ -47,7 +48,7 @@ export default function CreateSuccessful(config: ElementArgument) {
     }
 
     return <>
-        {showToast && <Toast className="fixed bottom-0 left-0 min-w-full rounded-none sm:left-auto sm:min-w-[calc(100vw-3.5rem)] sm:rounded-lg sm:bottom-5 sm:right-5 border-gray-700 bg-indigo-950">
+        {showToast && <Toast className="fixed bottom-0 left-0 min-w-full rounded-none sm:left-auto sm:min-w-[calc(100vw-3.5rem)] sm:rounded-lg sm:bottom-5 sm:right-5 border-gray-700 bg-indigo-950 z-50">
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500">
                 <FaClipboard className="h-5 w-5" />
             </div>
@@ -73,7 +74,7 @@ export default function CreateSuccessful(config: ElementArgument) {
                                 </CardComponent>
                             </a>
                         </div>
-                        <Button className="w-full" onClick={() => config.onCreateNew()}>建立新的短連結</Button>
+                        <Link to={"/"} className="w-full"><Button onClick={() => config.onCreateNew()} className="w-full">建立新的短連結</Button></Link>
                     </div>
                 </div>
                 <div ref={QRCodeRef} className="flex flex-col border-l-0 border-t-2 justify-center border-gray-400 lg:border-l-2 lg:border-t-0 lg:pl-5">

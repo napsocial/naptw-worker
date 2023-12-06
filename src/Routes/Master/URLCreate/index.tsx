@@ -4,10 +4,8 @@ import { Button, ToggleSwitch, Card, Spinner } from "flowbite-react";
 import { FaLink, FaCalendar } from "react-icons/fa";
 import { useState } from "react";
 import type { AdvanceOption, AdvanceOptionNames } from "@/types/master";
-import { ServerStatus, Status } from "../utils";
-import { ServerShortError, analysisLog } from "@/utils";
-import axios from "axios";
-import { ServerResponse } from "http";
+import { ServerStatus, Status, createShort } from "../utils";
+import { ServerShortError } from "@/utils";
 
 interface CreateArgument {
     onStatusChange: CallbackFunction<Status>,
@@ -28,28 +26,27 @@ export default function URLCreate(config: CreateArgument) {
 
     const VALID_TEXT = <>當你使用NAP短網址服務時，即代表您同意我們的<a className="text-sky-500" href="/terms">服務條款</a>與<a className="text-sky-500" href="/privacy">隱私權政策</a>。</>;
     const NOT_VALID_TEXT = <>請注意！您輸入的不是有效的網址。</>;
+    const WAIT_FOR_TURNSTILE = <>目前正在等待人類驗證成功...</>;
 
     async function handleSubmit() {
-        if (url.length === 0 || !config.turnstileToken) return;
-        if (optitionConfig && optitionConfig.isEP && !optitionConfig.ep) return;
         config.onStatusChange(Status.Creating);
-        const request = await axios.post<ServerResponse>('/api/web', {
-            ul: encodeURI(url),
-            vf: config.turnstileToken,
-            ...optitionConfig
+
+        const res = await createShort({
+            url: url,
+            turnstile: config.turnstileToken,
+            configArgs: optitionConfig
         });
 
-        analysisLog("Create Link", "Create", "Short");
-        if (optitionConfig && optitionConfig.isEP) analysisLog("Create Link", "Create", "Expire");
+        if (!res) return config.onStatusChange(Status.Default);
 
-        switch (request.data[0]) {
+        switch (res.status) {
             case ServerStatus.Error:
-                config.onErrorChange(Number(request.data[1]));
+                config.onErrorChange(res.error);
                 config.onStatusChange(Status.Error);
                 break;
 
             case ServerStatus.CreateSuccess:
-                config.onURLChange(request.data[1].toString());
+                config.onURLChange(res.short);
                 config.onStatusChange(Status.CreateSuccessful);
         }
     }
@@ -92,7 +89,7 @@ export default function URLCreate(config: CreateArgument) {
                 inputPattern="https?://.+"
                 icon={FaLink}
                 sendMessage={config.turnstileToken ? "Create!" : <Spinner size="lg" className="m-auto w-full" />}
-                additionalText={isValid ? VALID_TEXT : NOT_VALID_TEXT} />
+                additionalText={isValid ? (config.turnstileToken ? VALID_TEXT : WAIT_FOR_TURNSTILE) : NOT_VALID_TEXT} />
         </div>
         
         <Button className={"mt-5 " + (showOption ? "rounded-bl-none rounded-br-none" : "")} onClick={handleShowOptition}>進階選項</Button>

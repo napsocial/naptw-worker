@@ -1,6 +1,6 @@
 name = "naptw-worker-cronjob"
 main = "src/index.ts"
-compatibility_date = "2023-05-15"
+compatibility_date = "2023-12-06"
 
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB

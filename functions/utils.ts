@@ -1,4 +1,4 @@
-import { D1Database, EventContext, Fetcher, IncomingRequestCfPropertiesBotManagementBase } from "@cloudflare/workers-types";
+import { D1Database, EventContext, Fetcher, IncomingRequestCfPropertiesBotManagementBase, Request } from "@cloudflare/workers-types";
 
 export const enum ServerStatus {
     CreateSuccess = 1 << 1,
@@ -49,4 +49,9 @@ export const generateRandomString = (length: number): string => {
         counter += 1;
     }
     return result;
+}
+
+export const getRequestDefaultPath = (request: Request) => {
+    const url = new URL(request.url);
+    return "".concat(url.protocol, "//", url.host);
 }
