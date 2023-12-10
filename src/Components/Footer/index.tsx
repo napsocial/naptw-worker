@@ -4,7 +4,7 @@ import "./index.css";
 
 export default function Footer() {
     return <>
-        <footer className="bg-gradient-to-br from-ft-bg-from via-ft-bg-via to-ft-bg-to align-bottom p-50">
+        <footer className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-ft-bg-to via-black to-black align-bottom p-50">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 px-5 sm:px-20">
                 <div className="md:flex md:justify-between">
                     <div className="mb-6 md:mb-0">
@@ -24,7 +24,7 @@ export default function Footer() {
                                     <a href="https://status.sanzi.io" className="hover:underline">Status</a>
                                 </li>
                                 <li className="mb-4">
-                                    <a href="https://nap.tw" className="hover:underline">NAP Shorter</a>
+                                    <a href="https://nap.tw" className="hover:underline">NAP Shortener</a>
                                 </li>
                                 <li className="mb-4">
                                     <a href="https://nap.social" className="hover:underline">@nap.social</a>

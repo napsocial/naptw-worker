@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "npx wrangler@latest pages dev --port 80 --proxy 3000 -- yarn dev:web",
+    "dev": "npx wrangler@latest pages dev --port 8080 --proxy 3000 --compatibility-date=2023-12-09 -- yarn dev:web",
     "dev:web": "vite",
     "build:pack": "tsc && vite build && cp -r functions dist/",
     "deploy": "yarn build:pack && npx wrangler@latest pages deploy dist",

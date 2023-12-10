@@ -92,11 +92,13 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
                     }
                 </div>
 
-                <span className="hidden md:block mt-5">將「<a className="text-blue-500" href={`javascript:(function(){window.open("${location.protocol}//${location.host}/c/u".concat("#",encodeURIComponent(location.href)))})();`}>生成短連結 ({location.host})</a>」加入至您的書籤列，即可快速生成短連結！</span>
+                <span className="hidden md:block mt-5">將「<a className="text-blue-500" onClick={(event) => {
+                    event.preventDefault()
+                    alert("將此聯結拖移至您的書籤列，即可快速生成！")
+                }} href={`javascript:(function(){window.open("${location.protocol}//${location.host}/c/u".concat("#",encodeURIComponent(location.href)))})();`}>生成短連結 ({location.host})</a>」加入至您的書籤列，即可快速生成短連結！</span>
             </div>
             <div className="text-center from-white to-theme bg-gradient-to-b w-full">
-                <div className="flex flex-col w-fit m-auto px-2">
-                    <span className="mb-5 text-2xl sm:text-3xl sm:py-2 lg:text-5xl bg-indigo-800 shadow-2xl shadow-indigo-800 text-white px-2 w-fit mx-auto rounded-lg">為什麼要使用<span className="font-bold underline underline-offset-4 sm:underline-offset-8 decoration-blue-400 sm:decoration-[5px]">小睡一下短網址服務</span>？</span>
+                <div className="flex flex-col w-fit m-auto px-2 pt-14">
                     <span className="text-lg bg-blue-700 text-white mb-5 px-2 w-fit mx-auto rounded-lg">往下看更多</span>
                     <FaAngleDown className="m-auto text-white animate-bounce mb-1" size={56} />
                 </div>

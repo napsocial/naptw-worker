@@ -44,7 +44,7 @@ export default function TabsElement(config: ElementArgument) {
                     pills: "flex-wrap font-medium text-sm text-gray-500 dark:text-gray-400 sm:space-x-2"
                 },
                 tabitem: {
-                    base: "flex items-center justify-center p-4 rounded-t-lg text-sm font-medium sm:first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none",
+                    base: "flex items-center justify-center p-2 sm:p-4 rounded-t-lg text-sm font-medium sm:first:ml-0 disabled:cursor-not-allowed disabled:text-gray-400 disabled:dark:text-gray-500 focus:ring-4 focus:ring-cyan-300 focus:outline-none",
                     styles: {
                         pills: {
                             base: "w-full mb-2 last:mb-0 sm:w-fit sm:mb-0",
