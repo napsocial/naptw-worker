@@ -4,6 +4,7 @@ import "./index.css";
 
 export default function Footer() {
     return <>
+        <div className={`w-full bg-gradient-to-b to-black py-96`.concat(location.pathname === "/" ? " from-theme" : " from-white")}></div>
         <footer className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-ft-bg-to via-black to-black align-bottom p-50">
             <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8 px-5 sm:px-20">
                 <div className="md:flex md:justify-between">

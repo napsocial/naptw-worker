@@ -65,7 +65,7 @@ export default function PrivateDecryption() {
 
         <div className="w-4/5">
             <div className="mb-5">
-                <h1 className="text-5xl sm:text-7xl font-bold mb-3">Let's Decryption!</h1>
+                <h1 className="text-5xl sm:text-7xl font-bold mb-3">Let's Decrypt!</h1>
                 <p className="text-md sm:text-lg text-gray-800">It seems you received an encrypted short URL. You have to decrypt the data to access the original URL!</p>
             </div>
 

@@ -7,6 +7,5 @@ export default function Introduction() {
             <Advantages />
             <Analysis />
         </div>
-        <div className="w-full bg-gradient-to-b from-theme to-black py-96"></div>
     </>;
 }

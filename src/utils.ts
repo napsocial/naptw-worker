@@ -54,3 +54,10 @@ export const analysisLog = (category: string, action: string, label: string) => 
         label
     });
 }
+
+export const formatNumberToBig = (num: number) => {
+    const i = Intl.NumberFormat(undefined, { notation: 'compact' }).format(num);
+
+    if (!Number.isNaN(Number(i))) return num.toLocaleString();
+    return i;
+};
