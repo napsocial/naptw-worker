@@ -7,11 +7,11 @@ interface ElementArgument {
 }
 
 const ErrorMessage = {
-    [ServerShortError.URLNotValid]:          "您所輸入的並非為有效的網址",
-    [ServerShortError.CustomLinkNotValid]:   "您自訂的短連結為非法網址",
-    [ServerShortError.Duplicate]:            "您自訂的短連結重複了",
-    [ServerShortError.NeedLogin]:            "您必須登入來執行此操作",
-    [ServerShortError.TurnsileNotPass]:      "您不得使用機器人來建立短連結，請使用NAP Shorter API建立"
+    [ServerShortError.URLNotValid]:        "您所輸入的並非為有效的網址",
+    [ServerShortError.CustomLinkNotValid]: "您自訂的短連結為非法網址",
+    [ServerShortError.Duplicate]:          "您自訂的短連結重複了",
+    [ServerShortError.NeedLogin]:          "您必須登入來執行此操作",
+    [ServerShortError.TurnsileNotPass]:    "您不得使用機器人來建立短連結，請使用NAP Shorter API建立"
 }
 
 export default function Error(config: ElementArgument) {

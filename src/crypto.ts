@@ -1,3 +1,22 @@
+//
+// Crypto Library v1 (crypto.ts)
+// Author: Muisnow <me@muisnowdevs.one>
+//
+//
+// About this library:
+//
+// This Crypto library didn't contain ANY additional crypto dependencies,
+// this library uses Web Crypto API, a W3C standard API, to provide
+// any crypto method for crypto needs.
+//
+// This library provides SHA-1, SHA-256, SHA-384, and SHA-512 to hash data.
+// And also provides Encryption methods, such as RSA-OAEP, AES-CTR, AES-CBC,
+// and AES-GCM, you can use this library to encrypt data locally.
+//
+//
+// Crypto Library is under Apache-2.0 License
+//
+
 export const enum HashAlgorithm {
     SHA1   = 'SHA-1',
     SHA256 = 'SHA-256',
@@ -12,6 +31,8 @@ export const enum CryptoAlgorithm {
     AES_GCM  = 'AES-GCM'
 }
 
+const WEB_CRYPTO = window.crypto;
+
 // Binary and string converter
 export const convertStringToBinary = (str: string): Uint8Array => new TextEncoder().encode(str);
 export const convertBinaryToString = (binary: BufferSource): string => new TextDecoder().decode(binary);
@@ -25,7 +46,7 @@ export const generateRandomBinary = (length = 32): Uint8Array => crypto.getRando
 export const generateRandomKey = (length = 32): string => convertBinaryToHex(generateRandomBinary(length));
 
 // Create hashs
-export const createBinaryHash = async (binary: Uint8Array, algorithm: HashAlgorithm = HashAlgorithm.SHA256): Promise<Uint8Array> => new Uint8Array(await window.crypto.subtle.digest(algorithm, binary));
+export const createBinaryHash = async (binary: Uint8Array, algorithm: HashAlgorithm = HashAlgorithm.SHA256): Promise<Uint8Array> => new Uint8Array(await WEB_CRYPTO.subtle.digest(algorithm, binary));
 export const createHash = async (data: string, algorithm: HashAlgorithm = HashAlgorithm.SHA256): Promise<Uint8Array> => {
     const encoded_text = convertStringToBinary(data);
     const hash = await createBinaryHash(encoded_text, algorithm);
@@ -38,11 +59,11 @@ export const createHashHex = async (data: string, algorithm: HashAlgorithm = Has
 // Encryption
 export const encryption = async (data: Uint8Array, key: Uint8Array, algorithm: CryptoAlgorithm = CryptoAlgorithm.AES_CBC): Promise<string> => {
     const iv = generateRandomBinary(16);
-    const encoded_key = await window.crypto.subtle.importKey('raw', await createBinaryHash(key), {
+    const encoded_key = await WEB_CRYPTO.subtle.importKey('raw', await createBinaryHash(key), {
         name: algorithm,
         length: 256
     }, true, ['encrypt']);
-    const ciphertext = await window.crypto.subtle.encrypt({
+    const ciphertext = await WEB_CRYPTO.subtle.encrypt({
         name: algorithm,
         iv
     }, encoded_key, data);
@@ -55,11 +76,11 @@ export const decryption = async (cipher: string, key: Uint8Array, algorithm: Cry
     const encrypted_data = cipher.slice(0, cipher.length - 32);
     const encrypted_iv = convertHexToBinary(cipher.slice(cipher.length - 32));
     const decrypted_cipher = convertBase64ToBinary(encrypted_data);
-    const encoded_key = await window.crypto.subtle.importKey('raw', await createBinaryHash(key), {
+    const encoded_key = await WEB_CRYPTO.subtle.importKey('raw', await createBinaryHash(key), {
         name: algorithm,
         length: 256
     }, true, ['decrypt']);
-    const content = await window.crypto.subtle.decrypt({
+    const content = await WEB_CRYPTO.subtle.decrypt({
         name: algorithm,
         iv: encrypted_iv
     }, encoded_key, decrypted_cipher);
