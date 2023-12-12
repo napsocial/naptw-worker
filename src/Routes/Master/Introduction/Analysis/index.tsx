@@ -26,7 +26,7 @@ const IntroText = ({ children }: { children: (string | JSX.Element)[] }) => <h1 
 export default function Analysis() {
     const data = useFetch<AnalysisResponse>("/api/analysis");
 
-    return <div className="bg-theme w-full min-h-screen md:w-4/5 m-auto">
+    return <div className="bg-theme w-full md:w-4/5 m-auto">
         <div className="text-white m-auto px-5 md:px-0 mb-10 mt-5 flex justify-end">
             <span className="text-5xl font-bold w-fit leading-tight">當然 我們也提供<span className="bg-indigo-600 px-2 mx-2">公開數據</span>！</span>
         </div>
