@@ -4,6 +4,10 @@
     "exclude": [
         "/",
         "/assets/*",
+        "/encryption/*",
+        "/analysis/*",
+        "/c/*",
+        "/dashboard/*",
         "/favicon.ico",
         "/robots.txt"
     ]
