@@ -43,7 +43,7 @@ export default function Analysis() {
                     {data.country_rank[0].country_code}
                 </>}</span></IntroText>
             </div>
-            <p className="text-gray-500 text-right">*這是我們自創建以來的數據，有可能會因為資料結構不同而實際有所差異。</p>
+            <p className="text-gray-500 text-right">*這是我們自創建以來的數據，有可能會因為資料結構不同而與真實數據有所差異。</p>
         </div>
     </div>;
 }
