@@ -46,7 +46,7 @@ export default function PrivateDecryption() {
 
         if (await createBinaryHashHex(dec, HashAlgorithm.SHA1) !== data[4]) {
             setStatus(DecryptionStatus.Error);
-            setError("We cannot decrypt the data, the hash of decrypted is not match the original.");
+            setError("We cannot decrypt the data, the hash of decrypted data doesn't match the original.");
             return;
         }
 
@@ -58,7 +58,7 @@ export default function PrivateDecryption() {
             <span>
                 <p>
                     <span className="font-bold block">Notice</span>
-                    In the decryption section, The NAP Network <span className="font-bold">WON'T</span> collect your data.
+                    In the decryption section, The NAP Platform <span className="font-bold">WON'T</span> collect your data.
                 </p>
             </span>
         </Alert>
@@ -70,7 +70,7 @@ export default function PrivateDecryption() {
             </div>
 
             {!data && <Spinner size="xl" className="m-auto w-full" />}
-            {data && data[0] === ServerStatus.Error && <AlertBox>We cannot get the encrypted short link from our database. Is your encryption short link it expired?</AlertBox>}
+            {data && data[0] === ServerStatus.Error && <AlertBox>We cannot get the encrypted short link from our database. Is your short link expired?</AlertBox>}
             {
                 data && data[0] !== ServerStatus.Error && (() => {
                     switch (status) {
