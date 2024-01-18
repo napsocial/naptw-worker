@@ -1,4 +1,14 @@
 //
+// ############################################
+// ##                                        ##
+// ##            The NAP Platform            ##
+// ##         NAP Shortener Projecet         ##
+// ##                                        ##
+// ##    Copyright (c) 2024 SanZi Network    ##
+// ##       Copyright (c) 2024 Muisnow       ##
+// ##                                        ##
+// ############################################
+//
 // Crypto Library v1 (crypto.ts)
 // Author: Muisnow <me@muisnowdevs.one>
 //
@@ -14,7 +24,7 @@
 // and AES-GCM, you can use this library to encrypt data locally.
 //
 //
-// Crypto Library is under Apache-2.0 License
+// Crypto Library is licensed under Apache-2.0 License
 //
 
 export const enum HashAlgorithm {

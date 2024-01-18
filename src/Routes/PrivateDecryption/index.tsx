@@ -6,7 +6,7 @@ import { FaKey } from "react-icons/fa";
 import { HashAlgorithm, convertBinaryToString, convertStringToBinary, createBinaryHashHex, createHashHex, decryption } from "@/crypto";
 import useTitle from "@/Hooks/useTitle";
 import useFetch from "@/Hooks/useFetch";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { ServerStatus } from "../Master/utils";
 
 enum DecryptionStatus {
@@ -53,6 +53,21 @@ export default function PrivateDecryption() {
         location.href = convertBinaryToString(dec);
     }
 
+    const STATUS = {
+        [DecryptionStatus.Default]:
+            <Input
+                onSubmit={handleSubmit}
+                onChange={(val) => setPassword(val.value)}
+                placeholder="Your_Very_Strong_Password"
+                actionType={(password.length > 0 && !isValid) ? "failure" : null}
+                isSubmitDisable={!isValid}
+                icon={FaKey}
+                type="password"
+                additionalText={(password.length > 0 && !isValid) && "Your password isn't correct!"}
+                sendMessage="Decrypt!" />,
+        [DecryptionStatus.Error]: <AlertBox>{error}</AlertBox>
+    };
+
     return <>
         <Alert color="cyan" rounded className="mb-10 w-4/5 m-auto absolute top-0">
             <span>
@@ -71,25 +86,7 @@ export default function PrivateDecryption() {
 
             {!data && <Spinner size="xl" className="m-auto w-full" />}
             {data && data[0] === ServerStatus.Error && <AlertBox>We cannot get the encrypted short link from our database. Is your short link expired?</AlertBox>}
-            {
-                data && data[0] !== ServerStatus.Error && (() => {
-                    switch (status) {
-                        case DecryptionStatus.Default:
-                            return <Input
-                                onSubmit={handleSubmit}
-                                onChange={(val) => setPassword(val.value)}
-                                placeholder="Your_Very_Strong_Password"
-                                actionType={(password.length > 0 && !isValid) ? "failure" : null}
-                                isSubmitDisable={!isValid}
-                                icon={FaKey}
-                                type="password"
-                                additionalText={(password.length > 0 && !isValid) && "Your password isn't correct!"}
-                                sendMessage="Decrypt!" />;
-                        case DecryptionStatus.Error:
-                            return <AlertBox>{error}</AlertBox>;
-                    }
-                })()
-            }
+            {data && data[0] !== ServerStatus.Error && STATUS[status]}
         </div>
     </>;
 }

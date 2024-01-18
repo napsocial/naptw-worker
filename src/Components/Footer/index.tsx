@@ -1,7 +1,5 @@
 import { FaTwitter, FaGithub, FaMastodon } from "react-icons/fa";
 
-import "./index.css";
-
 export default function Footer() {
     return <>
         <div className={`w-full bg-gradient-to-b to-black py-96`.concat(location.pathname === "/" ? " from-theme" : " from-white")}></div>

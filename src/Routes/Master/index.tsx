@@ -34,12 +34,51 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
 
     function handleType(type: number) {
         setType(type);
-        switch (type) {
-            case 0:
-                return setStatus(Status.Default);
-            case 1:
-                return setStatus(Status.CreatePrivate);
-        }
+        setStatus(type === 0 ? Status.Default : Status.CreatePrivate);
+    }
+
+    const STATUS = {
+        // Default Page
+        [Status.Default]:
+            <URLCreate
+                onStatusChange={setStatus}
+                onErrorChange={setErrorType}
+                onURLChange={setURL}
+                turnstileToken={token}
+                status={status}
+                urlForShort={url} />,
+        
+        // Private short link create page
+        [Status.CreatePrivate]:
+            <CreatePrivate
+                onStatusChange={setStatus}
+                onErrorChange={setErrorType}
+                onURLChange={setURL}
+                turnstileToken={token}
+                status={status} />,
+        
+        // Loading page
+        [Status.Creating]: <Creating />,
+
+        // Short link create successful page
+        [Status.CreateSuccessful]:
+            <CreateSuccessful
+                url={url}
+                onCreateNew={handleCreateNew} />,
+        
+        // Create short link from bookmark
+        [Status.CreateByBookmark]:
+            <CreateByBookmark
+                onStatusChange={setStatus}
+                onErrorChange={setErrorType}
+                onURLChange={setURL}
+                url={url}
+                turnstileToken={token} />,
+        
+        // Create Failed or other errors
+        [Status.Error]:
+            <ErrorPage
+                errorMessage={errorType} />
     }
 
     return <>
@@ -56,40 +95,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
 
             <div className="flex-auto flex flex-col sm:items-center justify-center m-auto w-11/12 min-h-full md:w-4/5 max-w-7xl">
                 <div className="w-full">
-                    {
-                        ((): JSX.Element => {
-                            switch (status) {
-                                case Status.Default:
-                                    return <URLCreate
-                                        onStatusChange={setStatus}
-                                        onErrorChange={setErrorType}
-                                        onURLChange={setURL}
-                                        turnstileToken={token}
-                                        status={status}
-                                        urlForShort={url} />;
-                                case Status.CreatePrivate:
-                                    return <CreatePrivate
-                                        onStatusChange={setStatus}
-                                        onErrorChange={setErrorType}
-                                        onURLChange={setURL}
-                                        turnstileToken={token}
-                                        status={status} />;
-                                case Status.Creating:
-                                    return <Creating />;
-                                case Status.CreateSuccessful:
-                                    return <CreateSuccessful url={url} onCreateNew={handleCreateNew} />;
-                                case Status.CreateByBookmark:
-                                    return <CreateByBookmark
-                                        onStatusChange={setStatus}
-                                        onErrorChange={setErrorType}
-                                        onURLChange={setURL}
-                                        url={url}
-                                        turnstileToken={token} />
-                                case Status.Error:
-                                    return <ErrorPage errorMessage={errorType} />;
-                            }
-                        })()
-                    }
+                    {STATUS[status]}
                 </div>
 
                 <span className="hidden md:block mt-5">將「<a className="text-blue-500" onClick={(event) => {
