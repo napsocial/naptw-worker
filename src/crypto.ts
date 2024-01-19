@@ -1,31 +1,36 @@
-//
-// ############################################
-// ##                                        ##
-// ##            The NAP Platform            ##
-// ##         NAP Shortener Projecet         ##
-// ##                                        ##
-// ##    Copyright (c) 2024 SanZi Network    ##
-// ##       Copyright (c) 2024 Muisnow       ##
-// ##                                        ##
-// ############################################
-//
-// Crypto Library v1 (crypto.ts)
-// Author: Muisnow <me@muisnowdevs.one>
-//
-//
-// About this library:
-//
-// This Crypto library didn't contain ANY additional crypto dependencies,
-// this library uses Web Crypto API, a W3C standard API, to provide
-// any crypto method for crypto needs.
-//
-// This library provides SHA-1, SHA-256, SHA-384, and SHA-512 to hash data.
-// And also provides Encryption methods, such as RSA-OAEP, AES-CTR, AES-CBC,
-// and AES-GCM, you can use this library to encrypt data locally.
-//
-//
-// Crypto Library is licensed under Apache-2.0 License
-//
+/**
+ *
+ * ############################################
+ * ##                                        ##
+ * ##            The NAP Platform            ##
+ * ##         NAP Shortener Projecet         ##
+ * ##                                        ##
+ * ##    Copyright (c) 2024 SanZi Network    ##
+ * ##       Copyright (c) 2024 Muisnow       ##
+ * ##                                        ##
+ * ############################################
+ *
+ * @file crypto.ts
+ * @version v1
+ * @author Muisnow <me@muisnowdevs.one>
+ * @copyright Copyright (c) 2024 SanZi Network
+ * @license Apache-2.0
+ *
+ *
+ * About this library:
+ *
+ * This Crypto library didn't contain ANY additional crypto dependencies,
+ * this library uses Web Crypto API, a W3C standard API, to provide
+ * any crypto method for crypto needs.
+ *
+ * This library provides SHA-1, SHA-256, SHA-384, and SHA-512 to hash data.
+ * And also provides Encryption methods, such as RSA-OAEP, AES-CTR, AES-CBC,
+ * and AES-GCM, you can use this library to encrypt data locally.
+ *
+ *
+ * Crypto Library is licensed under Apache-2.0 License
+ * 
+ */
 
 export const enum HashAlgorithm {
     SHA1   = 'SHA-1',

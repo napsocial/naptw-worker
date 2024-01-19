@@ -1,28 +1,33 @@
-//
-// ############################################
-// ##                                        ##
-// ##            The NAP Platform            ##
-// ##         NAP Shortener Projecet         ##
-// ##                                        ##
-// ##    Copyright (c) 2024 SanZi Network    ##
-// ##       Copyright (c) 2024 Muisnow       ##
-// ##                                        ##
-// ############################################
-//
-// Contact Information:
-//     NAP Shortener Project is a private project made by Muisnow. For the source code
-//     issue, please contact Muisnow or SanZi Network's maintainer using following
-//     methods.
-//
-//     Contact with Muisnow:
-//         Mail     - muisnow@sanzi.io
-//         Mastodon - @muisnow@nap.social
-//         Twitter  - @Hen000000hen
-//
-//     Contact with Maintainer:
-//         Mail     - service@sanzi.io
-//         Mastodon - @sanzi@nap.social
-// 
+/**
+ * 
+ * ############################################
+ * ##                                        ##
+ * ##            The NAP Platform            ##
+ * ##         NAP Shortener Projecet         ##
+ * ##                                        ##
+ * ##    Copyright (c) 2024 SanZi Network    ##
+ * ##       Copyright (c) 2024 Muisnow       ##
+ * ##                                        ##
+ * ############################################
+ * 
+ * @copyright Copyright (c) 2024 SanZi Network
+ * @copyright Copyright (c) 2024 The NAP Platform Project
+ *
+ * Contact Information:
+ *     NAP Shortener Project is a private project made by Muisnow. For the source code
+ *     issue, please contact Muisnow or SanZi Network's maintainer using following
+ *     methods.
+ *
+ *     Contact with Muisnow:
+ *         Mail     - muisnow@sanzi.io
+ *         Mastodon - @muisnow@nap.social
+ *         Twitter  - @Hen000000hen
+ *
+ *     Contact with Maintainer:
+ *         Mail     - service@sanzi.io
+ *         Mastodon - @sanzi@nap.social
+ * 
+ */
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

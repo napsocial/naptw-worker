@@ -16,19 +16,18 @@ export async function onRequest(context: DefaultRequest) {
     }, { status: 400 });
 
     const db = await context.env.DB
-        .prepare(`
-        SELECT  COUNT(*) as count,
-                links.original,
-                links.create_at,
-                links.expire_at,
-                links.create_user,
-                links.enabled
-        FROM    links
-        INNER JOIN analysis
-        ON links.short = analysis.short_link
-        WHERE links.short = ?
-        GROUP BY links.short, analysis.short_link
-        `)
+        .prepare([
+            "SELECT  COUNT(*) as count,",
+                    "links.original,",
+                    "links.create_at,",
+                    "links.expire_at,",
+                    "links.create_user,",
+                    "links.enabled",
+            "FROM    links",
+            "INNER JOIN analysis",
+            "ON links.short = analysis.short_link",
+            "WHERE links.short = ?",
+            "GROUP BY links.short, analysis.short_link"].join(" "))
         .bind(link)
         .first();
     
@@ -36,7 +35,7 @@ export async function onRequest(context: DefaultRequest) {
         success: false,
         message: "Cannot find the short link you want.",
         ERR_CODE: ErrorCode.NotFound
-    })
+    }, { status: 404 });
     
     return Response.json({
         success: true,

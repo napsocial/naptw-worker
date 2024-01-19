@@ -34,7 +34,7 @@ export const enum APIErrorType {
 
 export const ErrorMessages = {
     [APIErrorType.NoDirectAccess]: "You cannot direct access this API. Try our API to create short link!",
-    [APIErrorType.ServerError]: "Hi! NAP Shorter get an unexpected server error while getting the original URL of this short URL. If you want to submit this error, please email to service@nap.tw."
+    [APIErrorType.ServerError]: "Hi!\n\nNAP Shorter get an unexpected server error while getting the original URL of this short URL.\nIf you want to submit this error, please email to service@nap.tw.\n\nYou can contact The NAP Platform's Developers with this request ID: {request_id}"
 }
 
 export const validateURL = (url: string): boolean => /https?:\/\/.+/.test(url);

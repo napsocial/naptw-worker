@@ -11,14 +11,13 @@ interface ShortString {
 }
 
 function getTableName(type: ShortType) {
-    switch (type) {
-        case ShortType.Normal:
-            return "links";
-        case ShortType.Secure:
-            return "private_short_link";
-        case ShortType.SanZi:
-            return "sanzi_official_short";
-    }
+    const status = {
+        [ShortType.Normal]: "links",
+        [ShortType.Secure]: "private_short_link",
+        [ShortType.SanZi]:  "sanzi_official_short"
+    };
+
+    return status[type];
 }
 
 function getTypeShort(link: string): ShortString {
@@ -36,8 +35,9 @@ export async function onRequest(context: DefaultRequest) {
     try {
         const shortType = getTypeShort(link);
 
-        let SQL = `SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`;
-        if (shortType.type === ShortType.SanZi) SQL = `SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1`;
+        const SQL = shortType.type !== ShortType.SanZi
+            ? `SELECT original FROM ${getTableName(shortType.type)} WHERE short = ? AND enabled = 1 AND (expire_at IS NULL OR expire_at > CURRENT_TIMESTAMP)`
+            : `SELECT original FROM sanzi_official_short WHERE short = ? AND enabled = 1`;
         const result: ShortURLDatabaseResponse | null = await context.env.DB
             .prepare(SQL)
             .bind(shortType.short)
@@ -56,7 +56,9 @@ export async function onRequest(context: DefaultRequest) {
             .run();
         return Response.redirect(result.original, 302);
     } catch (e) {
-        console.log(e);
-        return new Response(ErrorMessages[APIErrorType.ServerError], { status: 500 });
+        const ID = Math.floor(Math.random() * Math.pow(16, 10)).toString(16);
+
+        console.error(ID, e);
+        return new Response(ErrorMessages[APIErrorType.ServerError].replace("{request_id}", "#" + ID), { status: 500 });
     }
 }
