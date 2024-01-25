@@ -35,7 +35,10 @@ export async function onRequestPost(context: DefaultRequest) {
             ServerShortError.TurnsileNotPass
         ]);
     
-    if (!validateURL(request.ul))
+    if (!validateURL(request.ul) || /* Immediate */[
+        "uuf827.xyz",
+        "order-get"
+    ].every((val) => request.ul.match(val))/* Immediate */)
         return Response.json([
             ServerStatus.Error,
             ServerShortError.URLNotValid

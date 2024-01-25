@@ -20,8 +20,8 @@
  * About this library:
  *
  * This Crypto library didn't contain ANY additional crypto dependencies,
- * this library uses Web Crypto API, a W3C standard API, to provide
- * any crypto method for crypto needs.
+ * this library uses Web Crypto API, a W3C standard API, to provide any
+ * crypto method for crypto needs.
  *
  * This library provides SHA-1, SHA-256, SHA-384, and SHA-512 to hash data.
  * And also provides Encryption methods, such as RSA-OAEP, AES-CTR, AES-CBC,
