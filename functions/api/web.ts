@@ -38,7 +38,7 @@ export async function onRequestPost(context: DefaultRequest) {
     if (!validateURL(request.ul) || /* Immediate */[
         "uuf827.xyz",
         "order-get"
-    ].every((val) => request.ul.includes(val))/* Immediate */)
+    ].some((val) => request.ul.includes(val))/* Immediate */)
         return Response.json([
             ServerStatus.Error,
             ServerShortError.URLNotValid
