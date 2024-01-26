@@ -4,13 +4,12 @@ import { Button, ToggleSwitch, Card, Spinner } from "flowbite-react";
 import { FaLink, FaCalendar } from "react-icons/fa";
 import { useState } from "react";
 import type { AdvanceOption, AdvanceOptionNames } from "@/types/master";
-import { ServerStatus, Status, createShort } from "../utils";
-import { ServerShortError } from "@/utils";
+import { ErrorMessage, ServerStatus, Status, createShort } from "../utils";
 
 interface CreateArgument {
     onStatusChange: CallbackFunction<Status>,
     onURLChange: CallbackFunction<string>,
-    onErrorChange: CallbackFunction<ServerShortError>,
+    onErrorChange: CallbackFunction<ErrorMessage>,
     status: Status,
     urlForShort: string,
     turnstileToken?: string

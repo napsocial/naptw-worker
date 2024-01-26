@@ -1,8 +1,8 @@
 import { lazy, useState } from "react";
 import Creating from "./Creating";
-import { ServerShortError, analysisLog } from "@/utils";
+import { analysisLog } from "@/utils";
 import URLCreate from "./URLCreate";
-import { Status } from "./utils";
+import { ErrorMessage, Status } from "./utils";
 import { Turnstile } from "@marsidev/react-turnstile";
 import Tabs from "./Tabs";
 import CreatePrivate from "./CreatePrivate";
@@ -19,7 +19,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
 
     const [type, setType] = useState<number>(0);
     const [status, setStatus] = useState<Status>((config.isBookmarkCreate && Status.CreateByBookmark) || Status.Default);
-    const [errorType, setErrorType] = useState<ServerShortError>(null);
+    const [errorType, setErrorType] = useState<ErrorMessage>(null);
     const [token, setToken] = useState<string>(null);
     const [url, setURL] = useState<string>((config.isBookmarkCreate && hash.replace("#", "")) || '');
 
@@ -52,7 +52,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
         [Status.CreatePrivate]:
             <CreatePrivate
                 onStatusChange={setStatus}
-                onErrorChange={setErrorType}
+                onErrorChange={(code) => setErrorType({ code })}
                 onURLChange={setURL}
                 turnstileToken={token}
                 status={status} />,

@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 import { Spinner } from "flowbite-react";
 import Card from "../Card";
-import { ServerStatus, Status, createShort } from "../utils";
+import { ErrorMessage, ServerStatus, Status, createShort } from "../utils";
 import { CallbackFunction } from "@/types";
-import { ServerShortError } from "@/utils";
 
 interface Arguments {
     onStatusChange: CallbackFunction<Status>,
     onURLChange: CallbackFunction<string>,
-    onErrorChange: CallbackFunction<ServerShortError>,
+    onErrorChange: CallbackFunction<ErrorMessage>,
     turnstileToken?: string,
     url: string,
 }

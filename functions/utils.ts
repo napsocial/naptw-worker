@@ -13,6 +13,7 @@ export const enum ServerShortError {
     TurnsileNotPass    = 1 << 4,
     URLNotFound        = 1 << 5,
     RequirementsNotMet = 1 << 6,
+    URLBlocked         = 1 << 7
 }
 
 export type DefaultRequest = EventContext<Env, string, Record<string, unknown>>;

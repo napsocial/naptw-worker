@@ -6,6 +6,11 @@ interface RequestData {
     ep?: number         // Expire Timestamp (optional)
 }
 
+interface URLBlock {
+    reason: string,
+    timestamp: string
+}
+
 export async function onRequestPost(context: DefaultRequest) {
     if (!context.request.headers.get('Referer')?.match(new URL(context.request.url).hostname) ||
         (context.request.cf?.botManagement as BotManagement).score < 25)
@@ -35,13 +40,25 @@ export async function onRequestPost(context: DefaultRequest) {
             ServerShortError.TurnsileNotPass
         ]);
     
-    if (!validateURL(request.ul) || /* Immediate */[
-        "uuf827.xyz",
-        "order-get"
-    ].some((val) => request.ul.includes(val))/* Immediate */)
+    if (!validateURL(request.ul))
         return Response.json([
             ServerStatus.Error,
             ServerShortError.URLNotValid
+        ]);
+    
+    const url = new URL(request.ul);
+    
+    const url_blocked: URLBlock | null = await context.env.DB
+        .prepare("SELECT reason, timestamp FROM block_list WHERE (domain = ? OR domain = ?) AND enabled = 1")
+        .bind(url.hostname, url.hostname.split(".").slice(-2).join("."))
+        .first();
+    
+    if (url_blocked)
+        return Response.json([
+            ServerStatus.Error,
+            ServerShortError.URLBlocked,
+            url_blocked.reason,
+            url_blocked.timestamp
         ]);
     
     const short = generateRandomString(5);

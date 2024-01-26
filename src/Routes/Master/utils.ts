@@ -26,8 +26,14 @@ interface CreateShortArguments {
 
 interface CreateShortReturn {
     short?: string,
-    error?: number,
+    error?: ErrorMessage,
     status: ServerStatus
+}
+
+export interface ErrorMessage {
+    reason?: string,
+    timestamp?: number,
+    code: number
 }
 
 export const createShort = async (args: CreateShortArguments): Promise<CreateShortReturn | undefined> => {
@@ -45,6 +51,10 @@ export const createShort = async (args: CreateShortArguments): Promise<CreateSho
     return {
         status: request.data[0],
         short: request.data[1].toString(),
-        error: Number(request.data[1])
+        error: {
+            code: Number(request.data[1]),
+            reason: request.data[2],
+            timestamp: (new Date(request.data[3])).getTime(),
+        }
     };
 }
