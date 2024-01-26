@@ -56,6 +56,9 @@ export default function Footer() {
                                 <li className="mb-4">
                                     <a href="/terms" className="hover:underline">Terms of Service</a>
                                 </li>
+                                <li className="mb-4">
+                                    <a href="/o:napTerms" className="hover:underline">NAP Shortener ToS</a>
+                                </li>
                             </ul>
                         </div>
                     </div>

@@ -23,7 +23,7 @@ export default function URLCreate(config: CreateArgument) {
         isEP: false,
     });
 
-    const VALID_TEXT = <>當你使用NAP短網址服務時，即代表您同意我們的<a className="text-sky-500" href="/terms">服務條款</a>與<a className="text-sky-500" href="/privacy">隱私權政策</a>。</>;
+    const VALID_TEXT = <>當你使用NAP短網址服務時，即代表您同意我們的<a className="text-sky-500" href="/o:napTerms">小睡一下短連結服務服務條款</a>、<a className="text-sky-500" href="/terms">服務條款</a>與<a className="text-sky-500" href="/privacy">隱私權政策</a>。</>;
     const NOT_VALID_TEXT = <>請注意！您輸入的不是有效的網址。</>;
     const WAIT_FOR_TURNSTILE = <>目前正在等待人類驗證成功...</>;
 
