@@ -1,4 +1,5 @@
 import { FaTwitter, FaGithub, FaMastodon } from "react-icons/fa";
+import { HiMiniArrowTopRightOnSquare } from "react-icons/hi2";
 
 export default function Footer() {
     return <>
@@ -58,6 +59,9 @@ export default function Footer() {
                                 </li>
                                 <li className="mb-4">
                                     <a href="/o:napTerms" className="hover:underline">NAP Shortener ToS</a>
+                                </li>
+                                <li className="mb-4">
+                                    <a href="/o:napReport" className="hover:underline"><HiMiniArrowTopRightOnSquare className="inline" /> Report Violation</a>
                                 </li>
                             </ul>
                         </div>
