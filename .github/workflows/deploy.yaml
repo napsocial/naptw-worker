@@ -16,7 +16,8 @@ jobs:
           cache: 'yarn'
       
       - name: Install Dependencies
-        run: yarn
+        run: yarn install --frozen-lockfile
+
       - name: Build from Source
         run: yarn build:pack
         env:
