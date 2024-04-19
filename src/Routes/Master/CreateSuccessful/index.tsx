@@ -2,7 +2,8 @@ import { QRCodeSVG } from "qrcode.react";
 import { Card as CardComponent } from "flowbite-react";
 import Card from "../Card";
 import { Button, Toast } from "flowbite-react";
-import { FaClipboard } from "react-icons/fa";
+import { FaClipboard, FaCopy, FaDownload } from "react-icons/fa";
+import { FaArrowRotateRight } from "react-icons/fa6";
 import { useRef, useState } from "react";
 import { CallbackFunction } from "@/types";
 import { analysisLog } from "@/utils";
@@ -47,6 +48,14 @@ export default function CreateSuccessful(config: ElementArgument) {
         }
     }
 
+    function copyLink(event) {
+        event.preventDefault();
+        navigator.clipboard.writeText(full_short_url);
+        analysisLog("Create Link", "Copy", "ture");
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 5000);
+    }
+
     return <>
         {showToast && <Toast className="fixed bottom-0 left-0 min-w-full rounded-none sm:left-auto sm:min-w-[calc(100vw-3.5rem)] sm:rounded-lg sm:bottom-5 sm:right-5 border-gray-700 bg-indigo-950 z-50">
             <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-500">
@@ -62,24 +71,26 @@ export default function CreateSuccessful(config: ElementArgument) {
                     <div className="flex flex-col justify-between items-center h-full">
                         <div className="w-full mb-5">
                             <p className="text-md text-gray-500 mb-3">點連結來複製！</p>
-                            <a className="w-full" href={full_short_url} onClick={(event) => {
-                                event.preventDefault();
-                                navigator.clipboard.writeText(full_short_url);
-                                analysisLog("Create Link", "Copy", "ture");
-                                setShowToast(true);
-                                setTimeout(() => setShowToast(false), 5000);
-                            }} >
+                            <a className="w-full" href={full_short_url} onClick={copyLink} >
                                 <CardComponent>
                                     <span className="text-center text-2xl md:text-3xl text-blue-600 font-mono break-all">{short_url}</span>
                                 </CardComponent>
                             </a>
                         </div>
-                        <Link to={"/"} className="w-full"><Button onClick={() => config.onCreateNew()} className="w-full">建立新的短連結</Button></Link>
+                        <div className="flex w-full flex-col sm:flex-row">
+                            <Button onClick={copyLink} className="w-full sm:w-fit my-2 mr-3 sm:my-0 flex-auto"><FaCopy className="mr-2" /> 複製短連結</Button>
+                            <Link to={"/"} className="w-full sm:w-fit h-full">
+                                <Button outline onClick={() => config.onCreateNew()} className="w-full">
+                                    <FaArrowRotateRight className="text-sm sm:text-xl" />
+                                    <span className="block sm:hidden ml-2">建立新的短連結</span>
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 <div ref={QRCodeRef} className="flex flex-col border-l-0 border-t-2 justify-center border-gray-400 lg:border-l-2 lg:border-t-0 lg:pl-5">
                     <QRCodeSVG className="m-auto w-[150px] h-[150px] md:w-[200px] md:h-[200px] lg:w-[230px] lg:h-[230px]" value={full_short_url} includeMargin={true} size={500} />
-                    <Button onClick={handleClick}>下載 QR Code</Button>
+                    <Button onClick={handleClick}><FaDownload className="mr-2" /> 下載 QR Code</Button>
                 </div>
             </div>
         </Card>
