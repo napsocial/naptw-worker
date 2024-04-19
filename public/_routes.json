@@ -9,6 +9,7 @@
         "/c/*",
         "/dashboard/*",
         "/favicon.ico",
-        "/robots.txt"
+        "/robots.txt",
+        "/ads.txt"
     ]
 }
