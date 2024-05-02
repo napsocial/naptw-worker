@@ -11,4 +11,4 @@ database_id = "ae594a40-0220-4123-bf95-77079b0a6943"
 # Docs: https://developers.cloudflare.com/workers/platform/triggers/cron-triggers/
 # Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers
 [triggers]
-crons = ["0 * * * *"] # * * * * * = run every minute
+crons = ["0 0 1 * *"] # run every month
