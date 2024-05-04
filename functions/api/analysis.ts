@@ -30,6 +30,8 @@ type DBResponse = [
 ];
 
 export async function onRequest(context: DefaultRequest) {
+    const today = new Date();
+
     const [
         all_result,
         links_result,
@@ -40,7 +42,8 @@ export async function onRequest(context: DefaultRequest) {
             .prepare("SELECT COUNT(*) as all_count FROM analysis")
             .first<AllCounts>(),
         context.env.DB
-            .prepare("SELECT COUNT(*) as all_count FROM links")
+            .prepare("SELECT COUNT(*) as all_count FROM links WHERE strftime('%Y', timestamp) = ? AND strftime('%m', timestamp) + 0 = ? + 0")
+            .bind(today.getFullYear().toString(), (today.getMonth() + 1).toString())
             .first<AllCounts>(),
         context.env.DB
             .prepare("SELECT country_code, COUNT(*) as count FROM analysis GROUP BY country_code ORDER BY COUNT(*) DESC LIMIT 5")
