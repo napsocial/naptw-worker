@@ -6,17 +6,11 @@ interface AnalysisResponse {
     links_count:  number;
     all_counts:   number;
     country_rank: CountryRank[];
-    short_rank:   ShortRank[];
 }
 
 interface CountryRank {
     country_code: null | string;
     count:        number;
-}
-
-interface ShortRank {
-    short_link: string;
-    count:      number;
 }
 
 const IntroText = ({ children }: { children: (string | JSX.Element)[] }) => <h1 className="text-3xl sm:text-4xl font-bold ms:max-w-lg m-5 flex-auto rounded-lg shadow-lg p-5">
