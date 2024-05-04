@@ -39,11 +39,11 @@ export async function onRequest(context: DefaultRequest) {
         short_counts
     ]: DBResponse = await Promise.all([
         context.env.DB
-            .prepare("SELECT COUNT(*) as all_count FROM analysis")
+            .prepare("SELECT COUNT(*) as all_count FROM analysis WHERE strftime('%Y', timestamp) = ? AND strftime('%m', timestamp) + 0 = ? + 0")
+            .bind(today.getFullYear().toString(), (today.getMonth() + 1).toString())
             .first<AllCounts>(),
         context.env.DB
-            .prepare("SELECT COUNT(*) as all_count FROM links WHERE strftime('%Y', timestamp) = ? AND strftime('%m', timestamp) + 0 = ? + 0")
-            .bind(today.getFullYear().toString(), (today.getMonth() + 1).toString())
+            .prepare("SELECT COUNT(*) as all_count FROM links")
             .first<AllCounts>(),
         context.env.DB
             .prepare("SELECT country_code, COUNT(*) as count FROM analysis GROUP BY country_code ORDER BY COUNT(*) DESC LIMIT 5")
