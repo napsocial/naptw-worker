@@ -20,6 +20,6 @@ export async function onRequest(context: DefaultRequest) {
     return Response.json({
         links_count: all_result,
         all_counts: links_result,
-        country_rank: country_counts,
+        country_rank: country_counts?.split(":")[0],
     });
 }
