@@ -16,10 +16,15 @@ export async function onRequest(context: DefaultRequest) {
         context.env.KV.get("shorter::shortlinks::monthly_counts"),
         context.env.KV.get("shorter::shortlinks::country")
     ]);
+
+    const country = [{
+        country_code: country_counts?.split(":")[0],
+        count: country_counts?.split(":")[1]
+    }];
     
     return Response.json({
         links_count: all_result,
         all_counts: links_result,
-        country_rank: country_counts?.split(":")[0],
+        country_rank: country,
     });
 }
