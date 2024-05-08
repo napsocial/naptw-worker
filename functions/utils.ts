@@ -1,4 +1,4 @@
-import { D1Database, EventContext, Fetcher, IncomingRequestCfPropertiesBotManagementBase, Request } from "@cloudflare/workers-types";
+import { D1Database, EventContext, Fetcher, IncomingRequestCfPropertiesBotManagementBase, KVNamespace, Request } from "@cloudflare/workers-types";
 
 export const enum ServerStatus {
     CreateSuccess = 1 << 1,
@@ -20,6 +20,7 @@ export type DefaultRequest = EventContext<Env, string, Record<string, unknown>>;
 export type BotManagement = IncomingRequestCfPropertiesBotManagementBase;
 export interface Env {
     DB: D1Database,
+    KV: KVNamespace,
     TURNSTILE_KEY: string,
     ASSETS: Fetcher
 }

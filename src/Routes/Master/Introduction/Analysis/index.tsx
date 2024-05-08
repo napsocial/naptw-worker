@@ -26,9 +26,9 @@ export default function Analysis() {
         </div>
         <div className="bg-white p-5 m-5 rounded-xl">
             <div className="flex flex-wrap">
-                <IntroText>NAP短網址服務上一共有<span className="block text-orange-500 text-5xl sm:text-8xl bg-gray-200 m-3 rounded-lg px-3 text-right py-2">{data && formatNumberToBig(data.links_count)}</span>個短網址！</IntroText>
-                <IntroText>短網址本月一共被點擊<span className="block text-orange-500 text-5xl sm:text-8xl bg-gray-200 m-3 rounded-lg px-3 text-right py-2">{data && formatNumberToBig(data.all_counts)}</span>次！</IntroText>
-                <IntroText>最多點擊次數的國家<span className="flex justify-end items-center text-orange-500 text-5xl sm:text-8xl bg-gray-200 m-3 rounded-lg px-3 text-right py-2">{data && <>
+                <IntroText>上個月一共<span className="block text-orange-500 text-5xl sm:text-8xl bg-gray-200 m-3 rounded-lg px-3 text-right py-2">{data && formatNumberToBig(data.links_count)}</span>個短網址被創建！</IntroText>
+                <IntroText>上個月短網址一共被點擊<span className="block text-orange-500 text-5xl sm:text-8xl bg-gray-200 m-3 rounded-lg px-3 text-right py-2">{data && formatNumberToBig(data.all_counts)}</span>次！</IntroText>
+                <IntroText>上個月最多點擊次數的國家<span className="flex justify-end items-center text-orange-500 text-5xl sm:text-8xl bg-gray-200 m-3 rounded-lg px-3 text-right py-2">{data && <>
                     <ReactCountryFlag
                         className="mx-5 w-4 h-full rounded-lg"
                         style={{ height: "unset" }}

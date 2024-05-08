@@ -7,6 +7,10 @@ binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "shorturl"
 database_id = "ae594a40-0220-4123-bf95-77079b0a6943"
 
+[[kv_namespaces]]
+binding = "KV"
+id = "189eaef60ead4d4ab02fdc044510c216"
+
 # Cron Triggers
 # Docs: https://developers.cloudflare.com/workers/platform/triggers/cron-triggers/
 # Configuration: https://developers.cloudflare.com/workers/wrangler/configuration/#triggers

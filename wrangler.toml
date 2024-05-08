@@ -3,6 +3,10 @@ binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "shorturl"
 database_id = "ae594a40-0220-4123-bf95-77079b0a6943"
 
+[[kv_namespaces]]
+binding = "KV"
+id = "189eaef60ead4d4ab02fdc044510c216"
+
 [vars]
 TURNSTILE_KEY = "0x4AAAAAAAIU63N8vC_UCR4_TI3ga3jlWms"
 # TURNSTILE_KEY = "1x0000000000000000000000000000000AA"
