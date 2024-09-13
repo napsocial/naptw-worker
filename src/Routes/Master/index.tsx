@@ -9,6 +9,8 @@ import CreatePrivate from "./CreatePrivate";
 import Introduction from "./Introduction";
 import { FaAngleDown } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
+import { Alert } from "flowbite-react";
+import { HiInformationCircle, HiMiniArrowTopRightOnSquare } from "react-icons/hi2";
 
 const ErrorPage = lazy(() => import('./Error'));
 const CreateSuccessful = lazy(() => import('./CreateSuccessful'));
@@ -83,6 +85,13 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
 
     return <>
         <div className="min-h-[calc(100vh-7rem)] w-full flex flex-col">
+            <div className="w-fit m-auto">
+                <Alert className="w-fit break-words m-5" color="warning" icon={HiInformationCircle}>
+                    請注意！我們近期發現疑似<strong>濫用行為</strong>的操作，這可能<strong>違反我們的服務條款</strong>。
+                    為了您的使用安全，若您發現任何可能的<strong>有害</strong>或<strong>違反我們服務條款</strong>的短連結，請填寫<a href="/o:napReport" className="hover:underline font-bold">這個表單<HiMiniArrowTopRightOnSquare className="inline" /></a>。
+                </Alert>
+            </div>
+
             {[Status.Default, Status.CreatePrivate, Status.URLLookUp, Status.CreateByBookmark].includes(status) && <>
                 <Turnstile
                     className="absolute bottom-3"
