@@ -110,7 +110,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
                 <span className="hidden md:block mt-5">將「<a className="text-blue-500" onClick={(event) => {
                     event.preventDefault()
                     alert("將此聯結拖移至您的書籤列，即可快速生成！")
-                }} href={`javascript:(function(){window.open("${location.protocol}//${getDomainName()}/c/u".concat("#",encodeURIComponent(location.href)))})();`}>生成短連結 ({location.host})</a>」加入至您的書籤列，即可快速生成短連結！</span>
+                }} href={`javascript:(function(){window.open("${location.protocol}//${location.hostname}/c/u".concat("#",encodeURIComponent(location.href)))})();`}>生成短連結 ({getDomainName()})</a>」加入至您的書籤列，即可快速生成短連結！</span>
             </div>
             <div className="text-center from-white to-theme bg-gradient-to-b w-full">
                 <div className="flex flex-col w-fit m-auto px-2 pt-14">
