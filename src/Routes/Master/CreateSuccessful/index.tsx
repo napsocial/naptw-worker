@@ -6,7 +6,7 @@ import { FaClipboard, FaCopy, FaDownload } from "react-icons/fa";
 import { FaArrowRotateRight } from "react-icons/fa6";
 import { useRef, useState } from "react";
 import { CallbackFunction } from "@/types";
-import { analysisLog } from "@/utils";
+import { analysisLog, getDomainName } from "@/utils";
 import { Link } from "react-router-dom";
 
 interface ElementArgument {
@@ -18,7 +18,7 @@ export default function CreateSuccessful(config: ElementArgument) {
     const [showToast, setShowToast] = useState<boolean>(false);
     const QRCodeRef = useRef<HTMLDivElement>();
 
-    const short_url = [location.host, config.url].join("/");
+    const short_url = [getDomainName(), config.url].join("/");
     const full_short_url = location.protocol.concat("//", short_url);
 
     function handleClick() {

@@ -1,6 +1,6 @@
 import { lazy, useState } from "react";
 import Creating from "./Creating";
-import { analysisLog } from "@/utils";
+import { analysisLog, getDomainName } from "@/utils";
 import URLCreate from "./URLCreate";
 import { ErrorMessage, Status } from "./utils";
 import { Turnstile } from "@marsidev/react-turnstile";
@@ -10,7 +10,7 @@ import Introduction from "./Introduction";
 import { FaAngleDown } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { Alert } from "flowbite-react";
-import { HiInformationCircle, HiMiniArrowTopRightOnSquare } from "react-icons/hi2";
+import { HiInformationCircle } from "react-icons/hi2";
 
 const ErrorPage = lazy(() => import('./Error'));
 const CreateSuccessful = lazy(() => import('./CreateSuccessful'));
@@ -86,9 +86,9 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
     return <>
         <div className="min-h-[calc(100vh-7rem)] w-full flex flex-col">
             <div className="w-fit m-auto">
-                <Alert className="w-fit break-words m-5" color="warning" icon={HiInformationCircle}>
-                    請注意！我們近期發現疑似<strong>濫用行為</strong>的操作，這可能<strong>違反我們的服務條款</strong>。
-                    為了您的使用安全，若您發現任何可能的<strong>有害</strong>或<strong>違反我們服務條款</strong>的短連結，請填寫<a href="/o:napReport" className="hover:underline font-bold">這個表單<HiMiniArrowTopRightOnSquare className="inline" /></a>。
+                <Alert className="w-fit break-words m-5" color="info" icon={HiInformationCircle}>
+                    什麼！？小睡一下短網址服務竟然有了新的且更好記的網址！<a href="https://快.tw" className="font-bold mx-1">快.tw</a>我們新生的網域，與<a href="https://nap.tw" className="font-bold mx-1">nap.tw</a>一樣且短網址相通！<br/>
+                    您現在只需要輸入<a href="https://快.tw" className="font-bold mx-1">快.tw</a>或<a href="https://nap.tw" className="font-bold mx-1">nap.tw</a>即可快速生成短網址！立即使用小睡一下短網址服務吧！
                 </Alert>
             </div>
 
@@ -110,7 +110,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
                 <span className="hidden md:block mt-5">將「<a className="text-blue-500" onClick={(event) => {
                     event.preventDefault()
                     alert("將此聯結拖移至您的書籤列，即可快速生成！")
-                }} href={`javascript:(function(){window.open("${location.protocol}//${location.host}/c/u".concat("#",encodeURIComponent(location.href)))})();`}>生成短連結 ({location.host})</a>」加入至您的書籤列，即可快速生成短連結！</span>
+                }} href={`javascript:(function(){window.open("${location.protocol}//${getDomainName()}/c/u".concat("#",encodeURIComponent(location.href)))})();`}>生成短連結 ({location.host})</a>」加入至您的書籤列，即可快速生成短連結！</span>
             </div>
             <div className="text-center from-white to-theme bg-gradient-to-b w-full">
                 <div className="flex flex-col w-fit m-auto px-2 pt-14">

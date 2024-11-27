@@ -1,4 +1,5 @@
 import ReactGA from 'react-ga4';
+import { decode as punycodeDecode } from 'punycode';
 
 // Page should be modify in App\Utils
 export const enum ServerPage {
@@ -54,6 +55,14 @@ export const analysisLog = (category: string, action: string, label: string) => 
         action,
         label
     });
+}
+
+export const getDomainName = (url: URL = new URL(location.href)) => {
+    const hostname = url.hostname;
+    if (!hostname.startsWith('xn--'))
+        return hostname;
+
+    return punycodeDecode(hostname);
 }
 
 export const formatNumberToBig = (num: number) => {
