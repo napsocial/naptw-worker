@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Input from "@/Components/Input";
-import { PrivateDecryption } from "@/types";
+import type { PrivateDecryption } from "@/types";
 import { Alert, Spinner } from "flowbite-react";
 import { FaKey } from "react-icons/fa";
 import { HashAlgorithm, convertBinaryToString, convertStringToBinary, createBinaryHashHex, createHashHex, decryption } from "@/crypto";

@@ -1,7 +1,7 @@
 import { ServerShortError, analysisLog } from "@/utils";
 import Card from "../Card"
 import { useEffect } from "react";
-import { ErrorMessage } from "../utils";
+import type { ErrorMessage } from "../utils";
 
 interface ElementArgument {
     errorMessage: ErrorMessage
