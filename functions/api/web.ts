@@ -1,3 +1,4 @@
+import { checkRisk } from "../riskapi";
 import { APIErrorType, BotManagement, DefaultRequest, ErrorMessages, ServerShortError, ServerStatus, generateRandomString, validateURL } from "../utils";
 
 interface RequestData {
@@ -59,6 +60,16 @@ export async function onRequestPost(context: DefaultRequest) {
             ServerShortError.URLBlocked,
             url_blocked.reason,
             url_blocked.timestamp
+        ]);
+    
+    // check risk
+    const risk = await checkRisk(request.ul, context.env);
+    if (risk)
+        return Response.json([
+            ServerStatus.Error,
+            ServerShortError.URLBlocked,
+            "This URL is UNTRUSTABLE by our system. It may contain malware, phishing, or unwanted software. If you think this is a mistake, please contact us.",
+            new Date().toISOString()
         ]);
     
     const short = generateRandomString(5);

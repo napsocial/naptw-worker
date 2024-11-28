@@ -22,7 +22,9 @@ export interface Env {
     DB: D1Database,
     KV: KVNamespace,
     TURNSTILE_KEY: string,
-    ASSETS: Fetcher
+    ASSETS: Fetcher,
+    SERVICE_ACCOUNT: string,
+    GOOGLE_API_KEY: string
 }
 
 export interface ShortURLDatabaseResponse {
@@ -37,6 +39,20 @@ export const enum APIErrorType {
 export const ErrorMessages = {
     [APIErrorType.NoDirectAccess]: "You cannot direct access this API. Try our API to create short link!",
     [APIErrorType.ServerError]: "Hi!\n\nNAP Shorter get an unexpected server error while getting the original URL of this short URL.\nIf you want to submit this error, please email to service@nap.tw.\n\nYou can contact The NAP Platform's Developers with this request ID: {request_id}"
+}
+
+export interface ServiceAccountJSON {
+    type:                        string;
+    project_id:                  string;
+    private_key_id:              string;
+    private_key:                 string;
+    client_email:                string;
+    client_id:                   string;
+    auth_uri:                    string;
+    token_uri:                   string;
+    auth_provider_x509_cert_url: string;
+    client_x509_cert_url:        string;
+    universe_domain:             string;
 }
 
 export const validateURL = (url: string): boolean => /https?:\/\/.+/.test(url);
@@ -56,4 +72,8 @@ export const generateRandomString = (length: number): string => {
 export const getRequestDefaultPath = (request: Request) => {
     const url = new URL(request.url);
     return "".concat(url.protocol, "//", url.host);
+}
+
+export const getServiceAccount = (env: Env) => {
+    return JSON.parse(env.SERVICE_ACCOUNT) as ServiceAccountJSON;
 }
