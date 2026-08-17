@@ -30,13 +30,13 @@ export async function onRequest(context: DefaultRequest) {
             "GROUP BY links.short, analysis.short_link"].join(" "))
         .bind(link)
         .first();
-    
+
     if (!db) return Response.json({
         success: false,
         message: "Cannot find the short link you want.",
         ERR_CODE: ErrorCode.NotFound
     }, { status: 404 });
-    
+
     return Response.json({
         success: true,
         ...db

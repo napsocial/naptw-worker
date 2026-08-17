@@ -9,8 +9,6 @@ import CreatePrivate from "./CreatePrivate";
 import Introduction from "./Introduction";
 import { FaAngleDown } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
-import { Alert } from "flowbite-react";
-import { HiInformationCircle } from "react-icons/hi2";
 
 const ErrorPage = lazy(() => import('./Error'));
 const CreateSuccessful = lazy(() => import('./CreateSuccessful'));
@@ -49,7 +47,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
                 turnstileToken={token}
                 status={status}
                 urlForShort={url} />,
-        
+
         // Private short link create page
         [Status.CreatePrivate]:
             <CreatePrivate
@@ -58,7 +56,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
                 onURLChange={setURL}
                 turnstileToken={token}
                 status={status} />,
-        
+
         // Loading page
         [Status.Creating]: <Creating />,
 
@@ -67,7 +65,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
             <CreateSuccessful
                 url={url}
                 onCreateNew={handleCreateNew} />,
-        
+
         // Create short link from bookmark
         [Status.CreateByBookmark]:
             <CreateByBookmark
@@ -76,7 +74,7 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
                 onURLChange={setURL}
                 url={url}
                 turnstileToken={token} />,
-        
+
         // Create Failed or other errors
         [Status.Error]:
             <ErrorPage
@@ -85,13 +83,6 @@ export default function Master(config: { isBookmarkCreate?: boolean }) {
 
     return <>
         <div className="min-h-[calc(100vh-7rem)] w-full flex flex-col">
-            <div className="w-fit m-auto">
-                <Alert className="w-fit break-words m-5" color="info" icon={HiInformationCircle}>
-                    什麼！？小睡一下短網址服務竟然有了新的且更好記的網址！<a href="https://快.tw" className="font-bold mx-1">快.tw</a>我們新生的網域，與<a href="https://nap.tw" className="font-bold mx-1">nap.tw</a>一樣且短網址相通！<br/>
-                    您現在只需要輸入<a href="https://快.tw" className="font-bold mx-1">快.tw</a>或<a href="https://nap.tw" className="font-bold mx-1">nap.tw</a>即可快速生成短網址！立即使用小睡一下短網址服務吧！
-                </Alert>
-            </div>
-
             {[Status.Default, Status.CreatePrivate, Status.URLLookUp, Status.CreateByBookmark].includes(status) && <>
                 <Turnstile
                     className="absolute bottom-3"
