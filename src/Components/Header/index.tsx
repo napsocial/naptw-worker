@@ -16,7 +16,7 @@ export default function Header() {
             window.removeEventListener("scroll", handleScroll);
         }
     }, []);
-    
+
     return <>
         <header className={"flex w-full align-middle justify-center py-4 top-0 sticky bg-white/60 backdrop-blur-md transition-all delay-75 ease-in-out z-[99999999]".concat(isOnTop ? " shadow-lg h-24" : " shadow-none h-28")}>
             <div className="flex w-4/5 items-center">
@@ -26,10 +26,10 @@ export default function Header() {
                         <div className="brand transition-all delay-75 ease-in-out">
                             <span className="hidden sm:block text-2xl sm:text-4xl font-black mb-1 hover:cursor-default">小睡一下短網址服務</span>
                             <span className="block sm:hidden text-2xl sm:text-4xl font-black mb-1 hover:cursor-default">睡一下短網址</span>
-                            <span className="block text-white bg-black px-1 max-w-max transition"><a className="text-white" href="https://nap.tw">The NAP Platform</a></span>
+                            <span className="block text-white bg-black px-1 max-w-max transition"><a className="text-white" href="https://nap.tw">NAP Social</a></span>
                         </div>
                     </div>
-                    
+
                     <div className="account">
 
                     </div>
