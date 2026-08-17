@@ -1,4 +1,4 @@
-import { checkRisk } from "../riskapi";
+import { isCAPTCHAFailed, isURLBlocked, isURLRisky } from "../riskapi";
 import {
     APIErrorType,
     BotManagement,
@@ -16,11 +16,6 @@ interface RequestData {
     ep?: number; // Expire Timestamp (optional)
 }
 
-interface URLBlock {
-    reason: string;
-    timestamp: string;
-}
-
 export async function onRequestPost(context: DefaultRequest) {
     if (
         !context.request.headers
@@ -33,61 +28,35 @@ export async function onRequestPost(context: DefaultRequest) {
     const request: RequestData = await context.request.json();
     const ip = context.request.headers.get("CF-Connecting-IP") || "0.0.0.0";
 
-    if (!request.ul || !request.vf)
-        return Response.json([
-            ServerStatus.Error,
-            ServerShortError.RequirementsNotMet,
-        ]);
-
-    const form = new FormData();
-    form.append("secret", context.env.TURNSTILE_KEY);
-    form.append("response", request.vf);
-    form.append("remoteip", ip);
-
-    const result = await fetch(
-        "https://challenges.cloudflare.com/turnstile/v0/siteverify",
-        {
-            body: form,
-            method: "POST",
-        },
-    );
-    if (!(await result.json()).success)
-        return Response.json([
-            ServerStatus.Error,
-            ServerShortError.TurnsileNotPass,
-        ]);
-
     if (!validateURL(request.ul))
         return Response.json([
             ServerStatus.Error,
             ServerShortError.URLNotValid,
         ]);
 
-    const url = new URL(request.ul);
+    if (!request.ul || !request.vf)
+        return Response.json([
+            ServerStatus.Error,
+            ServerShortError.RequirementsNotMet,
+        ]);
 
-    const url_blocked: URLBlock | null = await context.env.DB.prepare(
-        "SELECT reason, timestamp FROM block_list WHERE (domain = ? OR domain = ?) AND enabled = 1",
-    )
-        .bind(url.hostname, url.hostname.split(".").slice(-2).join("."))
-        .first();
+    const result = await Promise.all([
+        isCAPTCHAFailed(request.vf, ip, context.env),
+        isURLBlocked(request.ul, context.env.DB),
+        isURLRisky(request.ul, context.env),
+    ]);
 
-    if (url_blocked)
+    for (const risk of result) {
+        if (!risk.blocked) continue;
         return Response.json([
             ServerStatus.Error,
             ServerShortError.URLBlocked,
-            url_blocked.reason,
-            url_blocked.timestamp,
+            risk.reason,
+            risk.timestamp
+                ? new Date(risk.timestamp).toISOString()
+                : new Date().toISOString(),
         ]);
-
-    // check risk
-    const risk = await checkRisk(request.ul, context.env);
-    if (risk)
-        return Response.json([
-            ServerStatus.Error,
-            ServerShortError.URLBlocked,
-            "This URL is UNTRUSTABLE by our system. It may contain malware, phishing, or unwanted software. If you think this is a mistake, please contact us.",
-            new Date().toISOString(),
-        ]);
+    }
 
     const short = generateRandomString(5);
     const expire = (request.ep && new Date(request.ep).toISOString()) ?? null;
