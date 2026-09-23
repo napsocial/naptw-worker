@@ -1,11 +1,9 @@
 # NAP Shorter (Legacy)
 
 > [!IMPORTANT]
-> This repository contains the previous implementation of NAP Shorter. It is no longer actively maintained and is being preserved as a public archive.
->
-> Development continues in [`napsocial/napshortener`](https://github.com/napsocial/napshortener).
+> This repository contains a legacy implementation of NAP Shorter. It is no longer actively maintained and is being preserved as a public archive.
 
-NAP Shorter is a URL shortener originally deployed on Cloudflare. This repository contains the legacy web application and edge backend that powered the service before it was replaced by the current implementation.
+NAP Shorter is a URL shortener originally deployed on Cloudflare. This repository contains the web application and edge backend used by the service during this implementation's lifetime.
 
 ## What this repository contains
 
@@ -18,18 +16,18 @@ NAP Shorter is a URL shortener originally deployed on Cloudflare. This repositor
 - Private/encrypted short links.
 - Redirect analytics and URL risk/blocking checks.
 
-The implementation reflects the architecture and requirements of the service at the time it was developed. It should be treated as historical code rather than the current NAP Shorter architecture.
+The code reflects the architecture and requirements of the service at the time it was developed and is kept primarily for historical and reference purposes.
 
 ## Development
 
-The original project uses Yarn and Wrangler.
+The project uses Yarn and Wrangler.
 
 ```sh
 yarn install
 yarn dev
 ```
 
-Other preserved scripts include:
+Other available scripts include:
 
 ```sh
 yarn lint
@@ -37,11 +35,11 @@ yarn build:pack
 yarn deploy
 ```
 
-Running the complete application requires compatible Cloudflare D1, KV, Turnstile, and Pages configuration. The identifiers and configuration committed to this repository belong to the historical deployment and should not be assumed to be suitable for a new deployment.
+Running the complete application requires compatible Cloudflare D1, KV, Turnstile, and Pages configuration. The identifiers and configuration committed to this repository belong to its historical deployment and should not be assumed to be suitable for a new deployment.
 
 ## Project status
 
-This repository is intended for archival and reference purposes. New development, bug fixes, and architectural changes belong in [`napsocial/napshortener`](https://github.com/napsocial/napshortener).
+This project is no longer actively maintained. The repository is intended to remain available as a public archive and reference to the implementation.
 
 ## License
 
